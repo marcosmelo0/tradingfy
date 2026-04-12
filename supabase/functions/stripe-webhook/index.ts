@@ -61,7 +61,6 @@ serve(async (req) => {
 
       console.log(`✅ Assinatura processada com sucesso: ${subscriptionId}`)
     }
- Joe
 
     if (event.type === "customer.subscription.deleted") {
       const subscription = event.data.object
