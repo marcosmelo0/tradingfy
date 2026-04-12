@@ -106,6 +106,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const refreshProfile = () => fetchProfile(user);
+
   const signOut = () => supabase.auth.signOut();
 
   return (
@@ -117,6 +119,7 @@ export const AuthProvider = ({ children }) => {
       signOut,
       subscribe,
       manageSubscription,
+      refreshProfile,
       isProcessing,
       isAdmin: user?.isAdmin 
     }}>

@@ -7,15 +7,18 @@ import { TrialGuard } from '../components/TrialGuard';
 import { AccountSwitcher } from '../components/AccountSwitcher';
 import { 
   Zap, LayoutDashboard, History, Settings, LogOut, 
-  MessageSquare, Globe, BarChart3, ShieldCheck
+  MessageSquare, Globe, BarChart3, ShieldCheck, Users 
 } from 'lucide-react';
+import { AffiliateCouponModal } from '../components/AffiliateCouponModal';
 
 export const DashboardLayout = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOut, refreshProfile } = useAuth();
   const { activeAccount } = useAccounts();
   const { confirm } = useModal();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isAffiliateMissingCoupon = user?.profile?.is_affiliate && !user?.profile?.coupon_code;
 
   const activeTab = location.pathname.split('/').pop() || 'dashboard';
 
@@ -120,10 +123,17 @@ export const DashboardLayout = () => {
           <TabButton path="/analytics" icon={<BarChart3 size={18} />} />
           <TabButton path="/news" icon={<Globe size={18} />} />
           <TabButton path="/topics" icon={<MessageSquare size={18} />} />
-          <TabButton path="/accounts" icon={<Settings size={18} />} />
           {user?.isAdmin && <TabButton path="/admin" icon={<ShieldCheck size={18} className="text-primary" />} />}
         </div>
       </nav>
+
+      {/* Forced Affiliate Setup */}
+      {isAffiliateMissingCoupon && (
+        <AffiliateCouponModal 
+          user={user} 
+          onSuccess={() => refreshProfile()} 
+        />
+      )}
     </div>
   );
 };

@@ -139,11 +139,18 @@ const AdminDashboard = () => {
                     <span className="text-sm text-foreground/80 font-medium">{u.email || 'N/A'}</span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight ${
-                      u.subscription_status === 'active' || u.subscription_status === 'admin' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'
-                    }`}>
-                      {u.subscription_status}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight ${
+                        u.subscription_status === 'active' || u.subscription_status === 'admin' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'
+                      }`}>
+                        {u.subscription_status}
+                      </span>
+                      {u.is_affiliate && (
+                        <span className="p-1 bg-blue-500/10 text-blue-500 rounded-lg" title="Afiliado Oficial">
+                          <Users size={12} />
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-sm text-muted-foreground">
                     {u.subscription_end_date ? new Date(u.subscription_end_date).toLocaleDateString('pt-BR') : '-'}
@@ -199,6 +206,7 @@ const StatCard = ({ icon: Icon, label, value, color }) => (
 
 const EditUserModal = ({ user, onClose, onSave }) => {
   const [status, setStatus] = useState(user.subscription_status);
+  const [isAffiliate, setIsAffiliate] = useState(user.is_affiliate || false);
   const [date, setDate] = useState(user.subscription_end_date ? user.subscription_end_date.split('T')[0] : '');
 
   const addDays = (days) => {
@@ -219,6 +227,19 @@ const EditUserModal = ({ user, onClose, onSave }) => {
         </div>
         
         <div className="space-y-6">
+          <div className="flex items-center justify-between p-4 bg-background border border-border rounded-2xl">
+            <div className="flex items-center gap-3">
+              <Users className="text-blue-500" size={20} />
+              <span className="text-sm font-bold">Modo Afiliado</span>
+            </div>
+            <input 
+              type="checkbox" 
+              checked={isAffiliate}
+              onChange={(e) => setIsAffiliate(e.target.checked)}
+              className="w-5 h-5 accent-primary cursor-pointer"
+            />
+          </div>
+
           <div className="space-y-2">
             <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1">Status do Plano</label>
             <div className="relative">
@@ -271,7 +292,11 @@ const EditUserModal = ({ user, onClose, onSave }) => {
             CANCELAR
           </button>
           <button 
-            onClick={() => onSave({ subscription_status: status, subscription_end_date: date })}
+            onClick={() => onSave({ 
+              subscription_status: status, 
+              subscription_end_date: date,
+              is_affiliate: isAffiliate
+            })}
             className="flex-1 px-4 py-4 rounded-2xl font-black bg-primary text-primary-foreground shadow-lg shadow-primary/20 text-xs hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             SALVAR ALTERAÇÕES
