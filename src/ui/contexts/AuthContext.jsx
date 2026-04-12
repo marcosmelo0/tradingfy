@@ -60,8 +60,14 @@ export const AuthProvider = ({ children }) => {
 
   const subscribe = async (priceId, hasAffiliate = false) => {
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Usuário não autenticado.');
+
       const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId, hasAffiliate }
+        body: { priceId, hasAffiliate },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
       });
 
       if (error) throw error;
@@ -76,7 +82,14 @@ export const AuthProvider = ({ children }) => {
 
   const manageSubscription = async () => {
     try {
-      const { data, error } = await supabase.functions.invoke('create-portal-link');
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Usuário não autenticado.');
+
+      const { data, error } = await supabase.functions.invoke('create-portal-link', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
       if (error) throw error;
       if (data?.url) {
         window.location.href = data.url;
