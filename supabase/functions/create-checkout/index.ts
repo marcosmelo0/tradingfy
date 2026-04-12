@@ -8,7 +8,8 @@ const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") ?? "", {
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, Authorization",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
 }
 
 serve(async (req) => {
@@ -17,14 +18,29 @@ serve(async (req) => {
   }
 
   try {
+    const authHeader = req.headers.get("Authorization") || req.headers.get("authorization")
+    if (!authHeader) {
+      console.error("❌ Cabeçalho de autorização ausente.")
+      throw new Error("Missing Authorization header")
+    }
+
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      { global: { headers: { Authorization: req.headers.get("Authorization")! } } }
+      { global: { headers: { Authorization: authHeader } } }
     )
 
-    const { data: { user } } = await supabaseClient.auth.getUser()
-    if (!user) throw new Error("Unauthorized")
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser()
+    
+    if (userError || !user) {
+      console.error("❌ Falha ao validar usuário:", userError?.message || "Usuário não encontrado")
+      return new Response(JSON.stringify({ error: "Unauthorized: " + (userError?.message || "Invalid token") }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+      })
+    }
+
+    console.log(`✅ Checkout iniciado por: ${user.email}`)
 
     const { priceId, hasAffiliate } = await req.json()
 
