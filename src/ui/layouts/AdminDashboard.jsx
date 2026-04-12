@@ -196,40 +196,53 @@ const EditUserModal = ({ user, onClose, onSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-6">
-      <div className="bg-card border border-border w-full max-w-md rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200">
-        <h3 className="text-2xl font-bold mb-6">Editar Gestão</h3>
-        <p className="text-sm text-muted-foreground mb-8">Usuário: <span className="text-foreground font-medium">{user.email}</span></p>
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-md p-6">
+      <div className="bg-card border border-border w-full max-w-md rounded-[2.5rem] p-10 shadow-2xl animate-in zoom-in-95 duration-200">
+        <div className="text-center mb-8">
+          <div className="inline-flex p-3 bg-primary/10 rounded-2xl text-primary mb-4">
+            <ShieldCheck size={32} />
+          </div>
+          <h3 className="text-2xl font-black">Editar Gestão</h3>
+          <p className="text-sm text-muted-foreground mt-1">Membro: <span className="text-foreground font-medium">{user.email}</span></p>
+        </div>
         
         <div className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Status</label>
-            <select 
-              value={status} 
-              onChange={(e) => setStatus(e.target.value)}
-              className="w-full bg-muted/30 border border-border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20"
-            >
-              <option value="active">Ativo</option>
-              <option value="trial">Trial</option>
-              <option value="expired">Expirado</option>
-              <option value="admin">Admin</option>
-            </select>
+            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1">Status do Plano</label>
+            <div className="relative">
+              <select 
+                value={status} 
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full bg-background border border-border rounded-2xl px-5 py-4 outline-none focus:border-primary transition-all appearance-none text-sm font-bold"
+              >
+                <option value="active" className="bg-background">👑 Ativo (Full Access)</option>
+                <option value="trial" className="bg-background">⏳ Período Trial</option>
+                <option value="expired" className="bg-background">❌ Plano Expirado</option>
+                <option value="admin" className="bg-background">🛡️ Administrador</option>
+              </select>
+              <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground">
+                <ShieldCheck size={16} />
+              </div>
+            </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Data de Expiração</label>
-            <input 
-              type="date" 
-              value={date} 
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-muted/30 border border-border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20"
-            />
-            <div className="flex gap-2 pt-2">
+            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1">Data de Expiração</label>
+            <div className="relative">
+              <Calendar className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+              <input 
+                type="date" 
+                value={date} 
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full bg-background border border-border rounded-2xl pl-14 pr-5 py-4 outline-none focus:border-primary transition-all text-sm font-bold [color-scheme:dark]"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2 pt-2">
               {[30, 90, 365].map(days => (
                 <button 
                   key={days}
                   onClick={() => addDays(days)}
-                  className="px-3 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary text-[10px] font-bold rounded-lg transition-all"
+                  className="px-4 py-2 bg-muted/50 hover:bg-primary/20 text-foreground hover:text-primary text-[10px] font-black rounded-xl transition-all border border-border"
                 >
                   +{days} DIAS
                 </button>
@@ -238,13 +251,18 @@ const EditUserModal = ({ user, onClose, onSave }) => {
           </div>
         </div>
 
-        <div className="flex gap-4 mt-10">
-          <button onClick={onClose} className="flex-1 px-6 py-3 rounded-xl font-bold border border-border hover:bg-muted transition-all text-sm">Cancelar</button>
+        <div className="flex gap-4 mt-12 bg-muted/20 p-2 rounded-3xl">
+          <button 
+            onClick={onClose} 
+            className="flex-1 px-4 py-4 rounded-2xl font-black border border-border hover:bg-muted transition-all text-xs"
+          >
+            CANCELAR
+          </button>
           <button 
             onClick={() => onSave({ subscription_status: status, subscription_end_date: date })}
-            className="flex-1 px-6 py-3 rounded-xl font-bold bg-primary text-primary-foreground shadow-lg shadow-primary/20 text-sm"
+            className="flex-1 px-4 py-4 rounded-2xl font-black bg-primary text-primary-foreground shadow-lg shadow-primary/20 text-xs hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
-            Salvar
+            SALVAR ALTERAÇÕES
           </button>
         </div>
       </div>
