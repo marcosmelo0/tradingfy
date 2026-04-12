@@ -8,7 +8,6 @@ import { SyncTrades } from '../../application/SyncTrades';
 import { useAuth } from '../contexts/AuthContext';
 import { useAccounts } from '../contexts/AccountContext';
 import { useModal } from '../contexts/ModalContext';
-import { WithdrawalModal } from '../components/WithdrawalModal';
 import { AccountSwitcher } from '../components/AccountSwitcher';
 import {
   AlertTriangle,
@@ -32,7 +31,6 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
   const { confirm } = useModal();
   const [uploading, setUploading] = useState(false);
   const [fileName, setFileName] = useState('');
-  const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
 
   const stats = useMemo(() =>
     StatisticsService.calculate(trades, {
@@ -70,9 +68,6 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
 
 
 
-  const handleRegisterWithdrawal = () => {
-    setShowWithdrawalModal(true);
-  };
 
   const cushionProgress = activeAccount?.buffer_value > 0
     ? Math.min(100, Math.max(0, (stats.peakPnL / activeAccount.buffer_value) * 100))
@@ -435,11 +430,6 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
         </div>
       </div>
 
-      <WithdrawalModal 
-        isOpen={showWithdrawalModal} 
-        onClose={() => setShowWithdrawalModal(false)} 
-        onRefresh={onRefresh}
-      />
     </div>
   );
 }
