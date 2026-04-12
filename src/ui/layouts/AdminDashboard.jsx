@@ -52,14 +52,18 @@ const AdminDashboard = () => {
   };
 
   const handleUpdateUser = async (updatedData) => {
-    const { error } = await supabase
-      .from('profiles')
-      .update(updatedData)
-      .eq('id', editingUser.id);
+    // Agora usando RPC para evitar erros de CORS/RLS
+    const { error } = await supabase.rpc('admin_update_profile', {
+      target_user_id: editingUser.id,
+      new_status: updatedData.subscription_status,
+      new_end_date: updatedData.subscription_end_date
+    });
 
     if (!error) {
       setEditingUser(null);
       fetchData();
+    } else {
+      console.error('Falha ao atualizar via RPC:', error.message);
     }
   };
 
@@ -71,8 +75,16 @@ const AdminDashboard = () => {
     });
 
     if (confirmed) {
-      const { error } = await supabase.from('profiles').delete().eq('id', userId);
-      if (!error) fetchData();
+      // Agora usando RPC para exclusão segura
+      const { error } = await supabase.rpc('admin_delete_user', {
+        target_user_id: userId
+      });
+
+      if (!error) {
+        fetchData();
+      } else {
+        console.error('Falha ao deletar via RPC:', error.message);
+      }
     }
   };
 
