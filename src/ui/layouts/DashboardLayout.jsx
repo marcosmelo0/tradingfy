@@ -7,7 +7,7 @@ import { TrialGuard } from '../components/TrialGuard';
 import { AccountSwitcher } from '../components/AccountSwitcher';
 import { 
   Zap, LayoutDashboard, History, Settings, LogOut, 
-  MessageSquare, Globe, BarChart3 
+  MessageSquare, Globe, BarChart3, ShieldCheck
 } from 'lucide-react';
 
 export const DashboardLayout = () => {
@@ -59,6 +59,14 @@ export const DashboardLayout = () => {
             <TabButton path="/news" icon={<Globe size={18} />} label="Notícias" />
             <TabButton path="/topics" icon={<MessageSquare size={18} />} label="Tópicos" />
             <TabButton path="/accounts" icon={<Settings size={18} />} label="Contas" />
+            
+            {user?.isAdmin && (
+              <TabButton 
+                path="/admin" 
+                icon={<ShieldCheck size={18} className="text-primary" />} 
+                label="Admin" 
+              />
+            )}
           </nav>
 
           <div className="flex items-center gap-4">
@@ -113,6 +121,7 @@ export const DashboardLayout = () => {
           <TabButton path="/news" icon={<Globe size={18} />} />
           <TabButton path="/topics" icon={<MessageSquare size={18} />} />
           <TabButton path="/accounts" icon={<Settings size={18} />} />
+          {user?.isAdmin && <TabButton path="/admin" icon={<ShieldCheck size={18} className="text-primary" />} />}
         </div>
       </nav>
     </div>

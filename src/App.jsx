@@ -16,6 +16,8 @@ import { ConversionView } from './ui/layouts/ConversionView';
 import { ProtectedRoute } from './ui/components/ProtectedRoute';
 import { DashboardLayout } from './ui/layouts/DashboardLayout';
 import { Loader2, ArrowRight } from 'lucide-react';
+import { AdminGuard } from './ui/components/AdminGuard';
+import AdminDashboard from './ui/layouts/AdminDashboard';
 
 function App() {
   const { user, loading: authLoading, signOut, subscribe } = useAuth();
@@ -163,10 +165,16 @@ function App() {
         <Route path="/news" element={<NewsView />} />
         <Route path="/topics" element={<SuggestionsView />} />
         <Route path="/accounts" element={<SettingsView />} />
-        <Route path="/plans" element={
           <div className="py-8">
             <LandingPage onlyPricing={true} onStartTrial={() => navigate('/dashboard')} onLogin={() => {}} />
           </div>
+        } />
+        
+        {/* Admin Secret Route */}
+        <Route path="/admin" element={
+          <AdminGuard>
+            <AdminDashboard />
+          </AdminGuard>
         } />
       </Route>
 
