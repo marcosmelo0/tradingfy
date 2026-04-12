@@ -272,8 +272,6 @@ const AdminDashboard = () => {
     </div>
   );
 };
-  );
-};
 
 const StatCard = ({ icon: Icon, label, value, color }) => (
   <div className="bg-card/40 backdrop-blur-md border border-border p-6 rounded-3xl">
