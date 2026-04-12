@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../../infrastructure/supabase';
+import ProcessingOverlay from '../components/ProcessingOverlay';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const fetchProfile = async (sessionUser) => {
     if (!sessionUser) {
@@ -60,6 +62,7 @@ export const AuthProvider = ({ children }) => {
 
   const subscribe = async (priceId, hasAffiliate = false) => {
     try {
+      setIsProcessing(true);
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Usuário não autenticado.');
 
@@ -77,11 +80,13 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Erro ao iniciar checkout:', error.message);
       alert('Não foi possível iniciar o checkout. Tente novamente.');
+      setIsProcessing(false);
     }
   };
 
   const manageSubscription = async () => {
     try {
+      setIsProcessing(true);
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Usuário não autenticado.');
 
@@ -97,6 +102,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Erro ao acessar portal:', error.message);
       alert('Não foi possível acessar o portal de gestão. Tente novamente.');
+      setIsProcessing(false);
     }
   };
 
@@ -111,9 +117,11 @@ export const AuthProvider = ({ children }) => {
       signOut,
       subscribe,
       manageSubscription,
+      isProcessing,
       isAdmin: user?.isAdmin 
     }}>
       {children}
+      {isProcessing && <ProcessingOverlay />}
     </AuthContext.Provider>
   );
 };
