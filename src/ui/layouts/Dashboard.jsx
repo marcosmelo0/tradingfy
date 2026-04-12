@@ -88,14 +88,6 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
           <AccountSwitcher />
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
-          {isFunded && (
-            <button
-              onClick={handleRegisterWithdrawal}
-              className="flex items-center justify-center gap-2 bg-green-500/10 text-green-500 border border-green-500/20 px-6 py-2 rounded-xl font-bold text-sm hover:bg-green-500 hover:text-white transition-all cursor-pointer"
-            >
-              <DollarSign size={18} /> Gestão de Saques
-            </button>
-          )}
 
           <div className="w-full md:w-80">
             {uploading ? (
