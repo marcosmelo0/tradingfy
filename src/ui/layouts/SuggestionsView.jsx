@@ -262,23 +262,23 @@ const SuggestionCard = ({ s, isAdmin, userId, onVote, onDelete, onStatusChange }
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
-        <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
-           <div className="flex items-center gap-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4 pt-4 border-t border-border/50">
+        <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 overflow-x-auto scrollbar-hide">
+           <div className="flex items-center gap-1 shrink-0">
               <Clock size={12} /> {new Date(s.created_at).toLocaleDateString('pt-BR')}
            </div>
-           <div className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-tighter ${STATUS_CONFIG[s.status]?.color}`}>
+           <div className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-tighter shrink-0 ${STATUS_CONFIG[s.status]?.color}`}>
              {STATUS_CONFIG[s.status]?.label}
            </div>
         </div>
         
         {isAdmin && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between sm:justify-end gap-2 bg-primary/5 p-2 sm:p-0 rounded-xl sm:bg-transparent">
             <span className="text-[9px] font-black text-primary uppercase tracking-widest">Mudar Status:</span>
             <select 
               value={s.status}
               onChange={(e) => onStatusChange(e.target.value)}
-              className="bg-muted text-muted-foreground text-[10px] font-bold px-3 py-1.5 rounded-xl outline-none cursor-pointer hover:bg-primary/10 hover:text-primary transition-all shadow-sm"
+              className="bg-muted text-muted-foreground text-[10px] font-bold px-3 py-1.5 rounded-xl outline-none cursor-pointer hover:bg-primary/10 hover:text-primary transition-all shadow-sm border-none"
             >
               <option value="aberto">Sugestão</option>
               <option value="desenvolvimento">Em Andamento</option>
