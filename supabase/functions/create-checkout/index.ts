@@ -53,10 +53,11 @@ serve(async (req) => {
 
     const session = await stripe.checkout.sessions.create({
       customer_email: user.email,
+      client_reference_id: user.id,
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       mode: "subscription",
-      allow_promotion_codes: true, // Permite que o usuário insira outros cupons (ex: TRADINGBLACK)
+      allow_promotion_codes: true,
       discounts: hasAffiliate ? [{ coupon: "TRADINGBLACK" }] : [],
       success_url: `${req.headers.get("origin")}?success=true`,
       cancel_url: `${req.headers.get("origin")}?canceled=true`,

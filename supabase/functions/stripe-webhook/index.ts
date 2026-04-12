@@ -29,9 +29,11 @@ serve(async (req) => {
 
     if (event.type === "checkout.session.completed" || event.type === "customer.subscription.updated") {
       const session = event.data.object
-      const userId = session.metadata?.userId || session.subscription_data?.metadata?.userId
+      const userId = session.client_reference_id || session.metadata?.userId || session.subscription_data?.metadata?.userId
       const customerId = session.customer
       const subscriptionId = session.subscription || session.id
+
+      console.log(`🔍 Processando ${event.type} para Usuário: ${userId}, Cliente: ${customerId}`)
 
       // Get subscription details to find end date and cancellation status
       const subscription = await stripe.subscriptions.retrieve(subscriptionId as string)
@@ -46,15 +48,20 @@ serve(async (req) => {
         is_first_purchase: false
       }
 
-      // If we don't have a userId from metadata (updates), find by customerId
+      // If we don't have a userId, we MUST find it by customerId to avoid orphaned payments
       if (userId) {
-        await supabaseAdmin.from("profiles").update(updateData).eq("id", userId)
-      } else {
-        await supabaseAdmin.from("profiles").update(updateData).eq("stripe_customer_id", customerId)
+        console.log(`📝 Atualizando perfil por ID de Usuário: ${userId}`)
+        const { error } = await supabaseAdmin.from("profiles").update(updateData).eq("id", userId)
+        if (error) console.error(`❌ Erro ao atualizar por ID: ${error.message}`)
+      } else if (customerId) {
+        console.log(`🕵️ Buscando e atualizando perfil por ID de Cliente Stripe: ${customerId}`)
+        const { error } = await supabaseAdmin.from("profiles").update(updateData).eq("stripe_customer_id", customerId)
+        if (error) console.error(`❌ Erro ao atualizar por Cliente: ${error.message}`)
       }
 
-      console.log(`✅ Assinatura atualizada: ${subscriptionId}`)
+      console.log(`✅ Assinatura processada com sucesso: ${subscriptionId}`)
     }
+ Joe
 
     if (event.type === "customer.subscription.deleted") {
       const subscription = event.data.object
