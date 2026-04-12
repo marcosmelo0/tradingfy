@@ -165,6 +165,7 @@ function App() {
         <Route path="/news" element={<NewsView />} />
         <Route path="/topics" element={<SuggestionsView />} />
         <Route path="/accounts" element={<SettingsView />} />
+        <Route path="/plans" element={
           <div className="py-8">
             <LandingPage onlyPricing={true} onStartTrial={() => navigate('/dashboard')} onLogin={() => {}} />
           </div>
