@@ -20,10 +20,9 @@ export const AffiliateCouponModal = ({ user, onSuccess }) => {
       return;
     }
 
-    const { error: updateError } = await supabase
-      .from('profiles')
-      .update({ coupon_code: cleanCoupon })
-      .eq('id', user.id);
+    const { error: updateError } = await supabase.rpc('register_affiliate_coupon', {
+      new_coupon: cleanCoupon
+    });
 
     if (updateError) {
       if (updateError.code === '23505') {
