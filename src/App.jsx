@@ -17,7 +17,8 @@ import { ProtectedRoute } from './ui/components/ProtectedRoute';
 import { DashboardLayout } from './ui/layouts/DashboardLayout';
 import { Loader2, ArrowRight } from 'lucide-react';
 import { AdminGuard } from './ui/components/AdminGuard';
-import AdminDashboard from './ui/layouts/AdminDashboard';
+import { AffiliateDashboard } from './ui/layouts/AffiliateDashboard';
+import { AffiliateGuard } from './ui/components/AffiliateGuard';
 
 function App() {
   const { user, loading: authLoading, signOut, subscribe } = useAuth();
@@ -172,11 +173,17 @@ function App() {
         } />
         
         {/* Admin Secret Route */}
-        <Route path="/admin" element={
-          <AdminGuard>
-            <AdminDashboard />
-          </AdminGuard>
-        } />
+          <Route path="/admin" element={
+            <AdminGuard>
+              <AdminDashboard />
+            </AdminGuard>
+          } />
+
+          <Route path="/affiliate" element={
+            <AffiliateGuard>
+              <AffiliateDashboard />
+            </AffiliateGuard>
+          } />
       </Route>
 
       {/* Fallback */}
