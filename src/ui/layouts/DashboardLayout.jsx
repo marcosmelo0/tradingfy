@@ -43,8 +43,8 @@ export const DashboardLayout = () => {
       <TrialGuard trialStartDate={user.profile?.trial_start_date} status={user.profile?.subscription_status} />
       
       <header className="border-b border-border bg-card/30 backdrop-blur-md sticky top-0 z-50 transition-all">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-x-12">
+          <div className="flex items-center gap-3 cursor-pointer shrink-0" onClick={() => navigate('/')}>
             <div className="bg-primary p-2 rounded-xl text-primary-foreground shadow-lg shadow-primary/20">
               <Zap size={22} fill="currentColor" />
             </div>
