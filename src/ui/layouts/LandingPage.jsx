@@ -18,6 +18,10 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
   }, []);
 
   const handleSubscribe = (priceId) => {
+    if (user?.profile?.plan_type === priceId && user?.profile?.subscription_status === 'active') {
+      return; // Já assinado
+    }
+
     if (user) {
       subscribe(priceId, !!ref);
     } else {
@@ -29,6 +33,9 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
       onStartTrial();
     }
   };
+
+  const isCurrentPlan = (priceId) => user?.profile?.plan_type === priceId && user?.profile?.subscription_status === 'active';
+  const getButtonLabel = (priceId, defaultLabel) => isCurrentPlan(priceId) ? 'Sua Assinatura' : defaultLabel;
 
   const PricingContent = () => (
     <div className="max-w-7xl mx-auto px-[5px] flex flex-col items-center">
@@ -74,7 +81,16 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Calendário Econômico" />
             <Benefit text="Monitor de Risco" />
           </ul>
-          <button className="w-full py-4 rounded-xl bg-foreground text-background font-black hover:scale-105 transition-all shadow-xl shadow-foreground/10 cursor-pointer">Escolher Plano</button>
+          <button 
+            disabled={isCurrentPlan('price_1TLPDZDbUw3ACMsAFMeTwJ8q')}
+            className={`w-full py-4 rounded-xl font-black transition-all shadow-xl shadow-foreground/10 ${
+              isCurrentPlan('price_1TLPDZDbUw3ACMsAFMeTwJ8q') 
+              ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70' 
+              : 'bg-foreground text-background hover:scale-105 cursor-pointer'
+            }`}
+          >
+            {getButtonLabel('price_1TLPDZDbUw3ACMsAFMeTwJ8q', 'Escolher Plano')}
+          </button>
         </div>
 
         {/* Trimestral */}
@@ -103,7 +119,16 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Calendário Econômico" />
             <Benefit text="Monitor de Risco" />
           </ul>
-          <button className="w-full py-4 rounded-xl bg-primary text-white font-black hover:scale-105 transition-all shadow-lg shadow-primary/20 cursor-pointer">Assinar Agora</button>
+          <button 
+            disabled={isCurrentPlan('price_1TLPDaDbUw3ACMsAwaiZMwW5')}
+            className={`w-full py-4 rounded-xl font-black transition-all shadow-lg ${
+              isCurrentPlan('price_1TLPDaDbUw3ACMsAwaiZMwW5')
+              ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70'
+              : 'bg-primary text-white shadow-primary/20 hover:scale-105 cursor-pointer'
+            }`}
+          >
+            {getButtonLabel('price_1TLPDaDbUw3ACMsAwaiZMwW5', 'Assinar Agora')}
+          </button>
         </div>
 
         {/* Semestral */}
@@ -128,7 +153,16 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Calendário Econômico" />
             <Benefit text="Monitor de Risco" />
           </ul>
-          <button className="w-full py-4 rounded-xl bg-foreground text-background font-black hover:scale-105 transition-all shadow-xl shadow-foreground/10 cursor-pointer">Escolher Plano</button>
+          <button 
+            disabled={isCurrentPlan('price_1TLPDaDbUw3ACMsAEjCiKZzh')}
+            className={`w-full py-4 rounded-xl font-black transition-all shadow-xl shadow-foreground/10 ${
+              isCurrentPlan('price_1TLPDaDbUw3ACMsAEjCiKZzh')
+              ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70'
+              : 'bg-foreground text-background hover:scale-105 cursor-pointer'
+            }`}
+          >
+            {getButtonLabel('price_1TLPDaDbUw3ACMsAEjCiKZzh', 'Escolher Plano')}
+          </button>
         </div>
       </div>
     </div>

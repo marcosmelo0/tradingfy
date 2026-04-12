@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { useAccounts } from '../contexts/AccountContext';
 import { useModal } from '../contexts/ModalContext';
-import { Plus, Save, Trash2, Settings2, RefreshCw } from 'lucide-react';
+import { Plus, Save, Trash2, Settings2, RefreshCw, CreditCard, Calendar, AlertCircle } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+
+const PLAN_NAMES = {
+  'price_1TLPDZDbUw3ACMsAFMeTwJ8q': 'Mensal',
+  'price_1TLPDaDbUw3ACMsAwaiZMwW5': 'Trimestral',
+  'price_1TLPDaDbUw3ACMsAEjCiKZzh': 'Semestral'
+};
 
 export const SettingsView = () => {
   const { createAccount, deleteAccount, clearTrades, accounts, loading } = useAccounts();
+  const { user, manageSubscription } = useAuth();
   const { confirm } = useModal();
   const [showAdd, setShowAdd] = useState(false);
   const [formData, setFormData] = useState({
@@ -39,6 +47,52 @@ export const SettingsView = () => {
         >
           <Plus size={18} /> Nova Conta
         </button>
+      </div>
+
+      {/* Subscription Status Section */}
+      <div className="bg-card border border-primary/20 p-6 rounded-3xl shadow-xl shadow-primary/5 relative overflow-hidden group">
+        <div className="absolute -right-8 -top-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all"></div>
+        
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div className="flex items-center gap-5">
+            <div className="p-4 bg-primary/10 text-primary rounded-2xl">
+              <CreditCard size={28} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-xl font-black tracking-tight">Assinatura & Plano</h3>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tighter ${
+                  user?.profile?.subscription_status === 'active' ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'
+                }`}>
+                  {user?.profile?.subscription_status === 'active' ? 'Ativo' : 'Trial / Pendente'}
+                </span>
+              </div>
+              <p className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                Plano: <span className="text-foreground font-bold">{PLAN_NAMES[user?.profile?.plan_type] || 'Professional Edition'}</span>
+                {user?.profile?.subscription_end_date && (
+                  <>
+                    <span className="w-1 h-1 bg-border rounded-full"></span>
+                    <span className="flex items-center gap-1">
+                      <Calendar size={14} /> Expira em {new Date(user.profile.subscription_end_date).toLocaleDateString('pt-BR')}
+                    </span>
+                  </>
+                )}
+              </p>
+              {user?.profile?.cancel_at_period_end && (
+                <div className="mt-2 flex items-center gap-1.5 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
+                  <AlertCircle size={14} /> Assinatura será encerrada ao final do período
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <button 
+            onClick={manageSubscription}
+            className="w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background rounded-xl font-black text-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer shadow-lg shadow-foreground/10"
+          >
+            Gerenciar Assinatura / Cancelar
+          </button>
+        </div>
       </div>
 
       {showAdd && (

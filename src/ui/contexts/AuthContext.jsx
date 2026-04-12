@@ -74,6 +74,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const manageSubscription = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('create-portal-link');
+      if (error) throw error;
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Erro ao acessar portal:', error.message);
+      alert('Não foi possível acessar o portal de gestão. Tente novamente.');
+    }
+  };
+
   const signOut = () => supabase.auth.signOut();
 
   return (
@@ -84,6 +97,7 @@ export const AuthProvider = ({ children }) => {
       signUp, 
       signOut,
       subscribe,
+      manageSubscription,
       isAdmin: user?.isAdmin 
     }}>
       {children}

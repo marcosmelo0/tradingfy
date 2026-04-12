@@ -27,42 +27,46 @@ serve(async (req) => {
 
     console.log(`🔔 Recebido evento: ${event.type}`)
 
-    if (event.type === "checkout.session.completed") {
+    if (event.type === "checkout.session.completed" || event.type === "customer.subscription.updated") {
       const session = event.data.object
-      const userId = session.metadata.userId
+      const userId = session.metadata?.userId || session.subscription_data?.metadata?.userId
       const customerId = session.customer
-      const subscriptionId = session.subscription
+      const subscriptionId = session.subscription || session.id
 
-      // Get subscription details to find end date
-      const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+      // Get subscription details to find end date and cancellation status
+      const subscription = await stripe.subscriptions.retrieve(subscriptionId as string)
       
-      const { error } = await supabaseAdmin
-        .from("profiles")
-        .update({
-          subscription_status: "active",
-          stripe_customer_id: customerId,
-          stripe_subscription_id: subscriptionId,
-          plan_type: subscription.items.data[0].plan.id, // Or map price ID to your names
-          subscription_end_date: new Date(subscription.current_period_end * 1000).toISOString(),
-          is_first_purchase: false
-        })
-        .eq("id", userId)
+      const updateData: any = {
+        subscription_status: subscription.status === 'active' ? 'active' : 'trial',
+        stripe_customer_id: customerId,
+        stripe_subscription_id: subscriptionId,
+        plan_type: subscription.items.data[0].plan.id,
+        subscription_end_date: new Date(subscription.current_period_end * 1000).toISOString(),
+        cancel_at_period_end: subscription.cancel_at_period_end,
+        is_first_purchase: false
+      }
 
-      if (error) throw error
-      console.log(`✅ Assinatura ativada para o usuário: ${userId}`)
+      // If we don't have a userId from metadata (updates), find by customerId
+      if (userId) {
+        await supabaseAdmin.from("profiles").update(updateData).eq("id", userId)
+      } else {
+        await supabaseAdmin.from("profiles").update(updateData).eq("stripe_customer_id", customerId)
+      }
+
+      console.log(`✅ Assinatura atualizada: ${subscriptionId}`)
     }
 
     if (event.type === "customer.subscription.deleted") {
       const subscription = event.data.object
-      const { error } = await supabaseAdmin
+      await supabaseAdmin
         .from("profiles")
         .update({
-          subscription_status: "expired", // Or 'inactive'
+          subscription_status: "expired",
+          cancel_at_period_end: false
         })
         .eq("stripe_subscription_id", subscription.id)
 
-      if (error) throw error
-      console.log(`❌ Assinatura cancelada/expirada: ${subscription.id}`)
+      console.log(`❌ Assinatura excluída: ${subscription.id}`)
     }
 
     return new Response(JSON.stringify({ received: true }), { status: 200 })
