@@ -83,7 +83,7 @@ export const DashboardLayout = () => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 pt-8">
+      <main className="max-w-7xl mx-auto px-6 pt-8 pb-32 lg:pb-8">
         {!activeAccount && location.pathname !== '/accounts' ? (
           <div className="py-32 text-center animate-in zoom-in-95">
             <div className="inline-flex p-6 bg-primary/10 rounded-full text-primary mb-6">
