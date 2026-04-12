@@ -17,6 +17,7 @@ import { ProtectedRoute } from './ui/components/ProtectedRoute';
 import { DashboardLayout } from './ui/layouts/DashboardLayout';
 import { Loader2, ArrowRight } from 'lucide-react';
 import { AdminGuard } from './ui/components/AdminGuard';
+import AdminDashboard from './ui/layouts/AdminDashboard';
 import { AffiliateDashboard } from './ui/layouts/AffiliateDashboard';
 import { AffiliateGuard } from './ui/components/AffiliateGuard';
 
