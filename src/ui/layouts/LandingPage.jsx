@@ -61,16 +61,16 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
         )}
         {/* Mensal */}
         <div 
-          onClick={() => handleSubscribe('price_1TLPDZDbUw3ACMsAFMeTwJ8q')}
+          onClick={() => handleSubscribe('price_1TLUGnDbUw3ACMsAYQtdFUwG')}
           className="bg-card border border-border px-4 py-8 md:p-8 rounded-3xl md:rounded-4xl flex flex-col hover:border-primary/50 transition-all group cursor-pointer w-full"
         >
           <div className="text-center md:text-left">
             <h3 className="text-2xl font-black mb-2">Mensal</h3>
             <div className="mb-6">
               {ref && (
-                <div className="text-sm text-muted-foreground line-through opacity-50 mb-1">R$ 59,62</div>
+                <div className="text-sm text-muted-foreground line-through opacity-50 mb-1">R$ 89,90</div>
               )}
-              <span className="text-4xl font-black">{ref ? 'R$ 53,66' : 'R$ 59,62'}</span>
+              <span className="text-4xl font-black">{ref ? 'R$ 80,91' : 'R$ 89,90'}</span>
               <span className="text-muted-foreground">/mês</span>
             </div>
           </div>
@@ -82,20 +82,20 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Monitor de Risco" />
           </ul>
           <button 
-            disabled={isCurrentPlan('price_1TLPDZDbUw3ACMsAFMeTwJ8q')}
+            disabled={isCurrentPlan('price_1TLUGnDbUw3ACMsAYQtdFUwG')}
             className={`w-full py-4 rounded-xl font-black transition-all shadow-xl shadow-foreground/10 ${
-              isCurrentPlan('price_1TLPDZDbUw3ACMsAFMeTwJ8q') 
+              isCurrentPlan('price_1TLUGnDbUw3ACMsAYQtdFUwG') 
               ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70' 
               : 'bg-foreground text-background hover:scale-105 cursor-pointer'
             }`}
           >
-            {getButtonLabel('price_1TLPDZDbUw3ACMsAFMeTwJ8q', 'Escolher Plano')}
+            {getButtonLabel('price_1TLUGnDbUw3ACMsAYQtdFUwG', 'Escolher Plano')}
           </button>
         </div>
 
         {/* Trimestral */}
         <div 
-          onClick={() => handleSubscribe('price_1TLPDaDbUw3ACMsAwaiZMwW5')}
+          onClick={() => handleSubscribe('price_1TLUGpDbUw3ACMsAbLAs6mB6')}
           className="bg-card border-2 border-primary px-4 py-8 md:p-8 rounded-3xl md:rounded-4xl flex flex-col relative shadow-2xl shadow-primary/10 md:scale-105 z-10 group cursor-pointer w-full my-4 md:my-0"
         >
           <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full whitespace-nowrap">
@@ -105,9 +105,9 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <h3 className="text-2xl font-black mb-2">Trimestral</h3>
             <div className="mb-6">
               {ref && (
-                <div className="text-sm text-white/50 line-through mb-1">R$ 89,68</div>
+                <div className="text-sm text-white/50 line-through mb-1">R$ 119,96</div>
               )}
-              <span className="text-4xl font-black">{ref ? 'R$ 80,71' : 'R$ 89,68'}</span>
+              <span className="text-4xl font-black">{ref ? 'R$ 107,96' : 'R$ 119,96'}</span>
               <span className="text-muted-foreground">/trimestre</span>
               <div className="text-xs text-primary font-bold mt-1">Economia de 50% vs Mensal</div>
             </div>
@@ -120,29 +120,29 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Monitor de Risco" />
           </ul>
           <button 
-            disabled={isCurrentPlan('price_1TLPDaDbUw3ACMsAwaiZMwW5')}
+            disabled={isCurrentPlan('price_1TLUGpDbUw3ACMsAbLAs6mB6')}
             className={`w-full py-4 rounded-xl font-black transition-all shadow-lg ${
-              isCurrentPlan('price_1TLPDaDbUw3ACMsAwaiZMwW5')
+              isCurrentPlan('price_1TLUGpDbUw3ACMsAbLAs6mB6')
               ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70'
               : 'bg-primary text-white shadow-primary/20 hover:scale-105 cursor-pointer'
             }`}
           >
-            {getButtonLabel('price_1TLPDaDbUw3ACMsAwaiZMwW5', 'Assinar Agora')}
+            {getButtonLabel('price_1TLUGpDbUw3ACMsAbLAs6mB6', 'Assinar Agora')}
           </button>
         </div>
 
         {/* Semestral */}
         <div 
-          onClick={() => handleSubscribe('price_1TLPDaDbUw3ACMsAEjCiKZzh')}
+          onClick={() => handleSubscribe('price_1TLUGpDbUw3ACMsAl5oIwhM1')}
           className="bg-card border border-border px-3 py-8 md:p-8 rounded-3xl md:rounded-4xl flex flex-col hover:border-primary/50 transition-all group cursor-pointer w-full"
         >
           <div className="text-center md:text-left">
             <h3 className="text-2xl font-black mb-2">Semestral</h3>
             <div className="mb-6">
               {ref && (
-                <div className="text-sm text-muted-foreground line-through opacity-50 mb-1">R$ 119,74</div>
+                <div className="text-sm text-muted-foreground line-through opacity-50 mb-1">R$ 150,02</div>
               )}
-              <span className="text-4xl font-black">{ref ? 'R$ 107,77' : 'R$ 119,74'}</span>
+              <span className="text-4xl font-black">{ref ? 'R$ 135,02' : 'R$ 150,02'}</span>
               <span className="text-muted-foreground">/semestre</span>
             </div>
           </div>
@@ -154,14 +154,14 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Monitor de Risco" />
           </ul>
           <button 
-            disabled={isCurrentPlan('price_1TLPDaDbUw3ACMsAEjCiKZzh')}
+            disabled={isCurrentPlan('price_1TLUGpDbUw3ACMs Al5oIwhM1')}
             className={`w-full py-4 rounded-xl font-black transition-all shadow-xl shadow-foreground/10 ${
-              isCurrentPlan('price_1TLPDaDbUw3ACMsAEjCiKZzh')
+              isCurrentPlan('price_1TLUGpDbUw3ACMsAl5oIwhM1')
               ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70'
               : 'bg-foreground text-background hover:scale-105 cursor-pointer'
             }`}
           >
-            {getButtonLabel('price_1TLPDaDbUw3ACMsAEjCiKZzh', 'Escolher Plano')}
+            {getButtonLabel('price_1TLUGpDbUw3ACMsAl5oIwhM1', 'Escolher Plano')}
           </button>
         </div>
       </div>
@@ -418,7 +418,7 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
           <h2 className="text-4xl font-black tracking-tight mb-6">Comece seu Trial hoje</h2>
           <p className="text-lg text-muted-foreground mb-10">
             Teste sem restrições por 7 dias. Sem letras miúdas, sem cartão.<br />
-            Se gostar, planos a partir de <span className="text-foreground font-black font-serif italic">{ref ? 'R$ 17,96' : 'R$ 19,94'}/mês</span> no plano semestral.
+            Se gostar, planos a partir de <span className="text-foreground font-black font-serif italic">{ref ? 'R$ 22,50' : 'R$ 25,00'}/mês</span> no plano semestral.
           </p>
           
           <button 
