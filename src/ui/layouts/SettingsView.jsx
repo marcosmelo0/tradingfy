@@ -86,12 +86,14 @@ export const SettingsView = () => {
             </div>
           </div>
           
-          <button 
-            onClick={manageSubscription}
-            className="w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background rounded-xl font-black text-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer shadow-lg shadow-foreground/10"
-          >
-            Gerenciar Assinatura / Cancelar
-          </button>
+          {user?.profile?.stripe_customer_id && (
+            <button 
+              onClick={manageSubscription}
+              className="w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background rounded-xl font-black text-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer shadow-lg shadow-foreground/10"
+            >
+              Gerenciar Assinatura / Cancelar
+            </button>
+          )}
         </div>
       </div>
 
