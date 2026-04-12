@@ -66,7 +66,9 @@ export const AffiliateCouponModal = ({ user, onSuccess }) => {
                 className="w-full bg-background border-2 border-border focus:border-blue-500 px-16 py-6 rounded-[2rem] text-xl font-black outline-none transition-all placeholder:text-muted-foreground/30"
               />
               <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                <span className="text-[10px] font-black bg-blue-500/10 text-blue-500 px-3 py-1 rounded-full uppercase">10% OFF</span>
+                <span className="text-[10px] font-black bg-blue-500/10 text-blue-500 px-3 py-1 rounded-full uppercase">
+                  {user?.profile?.affiliate_discount || 10}% OFF
+                </span>
               </div>
             </div>
             <p className="text-[10px] text-muted-foreground/60 ml-2 italic">

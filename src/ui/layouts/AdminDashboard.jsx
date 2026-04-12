@@ -56,7 +56,9 @@ const AdminDashboard = () => {
     const { error } = await supabase.rpc('admin_update_profile', {
       target_user_id: editingUser.id,
       new_status: updatedData.subscription_status,
-      new_end_date: updatedData.subscription_end_date
+      new_end_date: updatedData.subscription_end_date,
+      new_is_affiliate: updatedData.is_affiliate,
+      new_affiliate_discount: updatedData.affiliate_discount
     });
 
     if (!error) {
@@ -207,6 +209,7 @@ const StatCard = ({ icon: Icon, label, value, color }) => (
 const EditUserModal = ({ user, onClose, onSave }) => {
   const [status, setStatus] = useState(user.subscription_status);
   const [isAffiliate, setIsAffiliate] = useState(user.is_affiliate || false);
+  const [discount, setDiscount] = useState(user.affiliate_discount || 10);
   const [date, setDate] = useState(user.subscription_end_date ? user.subscription_end_date.split('T')[0] : '');
 
   const addDays = (days) => {
@@ -227,17 +230,36 @@ const EditUserModal = ({ user, onClose, onSave }) => {
         </div>
         
         <div className="space-y-6">
-          <div className="flex items-center justify-between p-4 bg-background border border-border rounded-2xl">
-            <div className="flex items-center gap-3">
-              <Users className="text-blue-500" size={20} />
-              <span className="text-sm font-bold">Modo Afiliado</span>
+          <div className="p-4 bg-background border border-border rounded-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Users className="text-blue-500" size={20} />
+                <span className="text-sm font-bold">Modo Afiliado</span>
+              </div>
+              <input 
+                type="checkbox" 
+                checked={isAffiliate}
+                onChange={(e) => setIsAffiliate(e.target.checked)}
+                className="w-5 h-5 accent-primary cursor-pointer"
+              />
             </div>
-            <input 
-              type="checkbox" 
-              checked={isAffiliate}
-              onChange={(e) => setIsAffiliate(e.target.checked)}
-              className="w-5 h-5 accent-primary cursor-pointer"
-            />
+
+            {isAffiliate && (
+              <div className="pt-4 border-t border-border animate-in slide-in-from-top-2">
+                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1">Desconto (%)</label>
+                <div className="mt-1 flex items-center gap-3">
+                  <input 
+                    type="number" 
+                    value={discount}
+                    onChange={(e) => setDiscount(parseInt(e.target.value))}
+                    className="flex-1 bg-muted/30 border border-border rounded-xl px-4 py-2 outline-none focus:border-primary font-bold text-sm"
+                    min="1"
+                    max="100"
+                  />
+                  <span className="text-sm font-black text-primary">% OFF</span>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -295,7 +317,8 @@ const EditUserModal = ({ user, onClose, onSave }) => {
             onClick={() => onSave({ 
               subscription_status: status, 
               subscription_end_date: date,
-              is_affiliate: isAffiliate
+              is_affiliate: isAffiliate,
+              affiliate_discount: discount
             })}
             className="flex-1 px-4 py-4 rounded-2xl font-black bg-primary text-primary-foreground shadow-lg shadow-primary/20 text-xs hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
