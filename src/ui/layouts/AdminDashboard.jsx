@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../infrastructure/supabase';
 import { 
   Users, Zap, Clock, ShieldCheck, Search, 
-  MoreVertical, Calendar, TrendingUp, AlertCircle 
+  MoreVertical, Calendar, TrendingUp, AlertCircle,
+  Edit2, Trash2
 } from 'lucide-react';
 import { useModal } from '../contexts/ModalContext';
 
@@ -136,9 +137,21 @@ const AdminDashboard = () => {
                     {u.subscription_end_date ? new Date(u.subscription_end_date).toLocaleDateString('pt-BR') : '-'}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-2">
-                      <button onClick={() => setEditingUser(u)} className="p-2 hover:bg-muted rounded-lg text-muted-foreground hover:text-primary"><Zap size={18} /></button>
-                      <button onClick={() => handleDeleteUser(u.id)} className="p-2 hover:bg-red-500/10 rounded-lg text-muted-foreground hover:text-red-500"><Zap size={18} className="rotate-45" /></button>
+                    <div className="flex justify-end gap-2 text-muted-foreground">
+                      <button 
+                        onClick={() => setEditingUser(u)} 
+                        className="p-2 hover:bg-primary/10 hover:text-primary rounded-lg transition-all"
+                        title="Editar Usuário"
+                      >
+                        <Edit2 size={18} />
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteUser(u.id)} 
+                        className="p-2 hover:bg-red-500/10 hover:text-red-500 rounded-lg transition-all"
+                        title="Excluir Usuário"
+                      >
+                        <Trash2 size={18} />
+                      </button>
                     </div>
                   </td>
                 </tr>
