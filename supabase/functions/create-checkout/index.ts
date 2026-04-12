@@ -19,6 +19,11 @@ serve(async (req) => {
 
   try {
     const authHeader = req.headers.get("Authorization") || req.headers.get("authorization")
+    
+    // Log detalhado para depuração (Remova em produção)
+    console.log("📥 Requisição recebida. Headers:", JSON.stringify(Object.fromEntries(req.headers.entries())))
+    console.log(`🔑 Auth Header presente: ${!!authHeader}`)
+
     if (!authHeader) {
       console.error("❌ Cabeçalho de autorização ausente.")
       throw new Error("Missing Authorization header")
