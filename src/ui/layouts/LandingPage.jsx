@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Zap, CheckCircle2, Shield, BarChart3, ArrowRight, Star, Users, TrendingUp, Clock, Globe } from 'lucide-react';
+import { Zap, CheckCircle2, Shield, BarChart3, ArrowRight, Star, Users, TrendingUp, Clock, Globe, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
   const [ref, setRef] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const { user, subscribe } = useAuth();
+
+  // Handle Escape key to close modal
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') setSelectedImage(null);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -256,14 +266,17 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
         <div className="max-w-6xl mx-auto mt-20 relative animate-in fade-in zoom-in duration-1000 delay-1000">
           <div className="relative group">
             <div className="absolute -inset-1 bg-linear-to-r from-primary to-orange-500 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative aspect-video bg-card border border-border rounded-[2.5rem] overflow-hidden shadow-2xl">
-              <img 
-                src="/assets/screenshots/dashboard.png" 
-                alt="TradingFy Dashboard" 
-                className="w-full h-full object-cover object-top hover:scale-[1.02] transition-transform duration-700"
-                onError={(e) => e.target.src = "https://placehold.co/1200x800/111/fff?text=Dashboard+Preview"}
-              />
-            </div>
+              <div 
+                className="relative aspect-video bg-card border border-border rounded-[2.5rem] overflow-hidden shadow-2xl cursor-zoom-in"
+                onClick={() => setSelectedImage({ src: "/assets/screenshots/dashboard.png", title: "Painel de Controle" })}
+              >
+                <img 
+                  src="/assets/screenshots/dashboard.png" 
+                  alt="TradingFy Dashboard" 
+                  className="w-full h-full object-cover object-top hover:scale-[1.02] transition-transform duration-700"
+                  onError={(e) => e.target.src = "https://placehold.co/1200x800/111/fff?text=Dashboard+Preview"}
+                />
+              </div>
           </div>
           
           <div className="absolute -top-6 -right-6 bg-orange-500 text-white p-4 rounded-2xl shadow-xl transform rotate-6 hidden md:block">
@@ -297,7 +310,7 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
                   <Benefit text="Comportamento operacional por dia/horário" />
                 </ul>
               </div>
-              <div className="flex-[1.5] relative group">
+              <div className="flex-[1.5] relative group cursor-zoom-in" onClick={() => setSelectedImage({ src: "/assets/screenshots/analytics.png", title: "Inteligência Analítica" })}>
                 <div className="absolute -inset-4 bg-blue-500/10 rounded-4xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <img 
                   src="/assets/screenshots/analytics.png" 
@@ -323,7 +336,7 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
                   <Benefit text="Visualização rápida de logs de execução" />
                 </ul>
               </div>
-              <div className="flex-[1.5] relative group">
+              <div className="flex-[1.5] relative group cursor-zoom-in" onClick={() => setSelectedImage({ src: "/assets/screenshots/history.png", title: "Histórico Operacional" })}>
                 <div className="absolute -inset-4 bg-purple-500/10 rounded-4xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <img 
                   src="/assets/screenshots/history.png" 
@@ -349,7 +362,7 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
                   <Benefit text="Filtro de impacto de 3 touros" />
                 </ul>
               </div>
-              <div className="flex-[1.5] relative group">
+              <div className="flex-[1.5] relative group cursor-zoom-in" onClick={() => setSelectedImage({ src: "/assets/screenshots/news.png", title: "Mercado Global e Notícias" })}>
                 <div className="absolute -inset-4 bg-orange-500/10 rounded-4xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <img 
                   src="/assets/screenshots/news.png" 
@@ -445,6 +458,37 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
           </div>
         </div>
       </footer>
+      {/* Image Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/90 backdrop-blur-md animate-in fade-in duration-300"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            className="absolute top-6 right-6 p-2 bg-card border border-border rounded-full hover:bg-muted transition-colors text-foreground z-[110]"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage(null);
+            }}
+          >
+            <X size={24} />
+          </button>
+          
+          <div className="relative max-w-7xl w-full flex flex-col items-center gap-4 animate-in zoom-in-95 duration-300">
+            <div className="bg-card border border-border rounded-2xl md:rounded-[2rem] overflow-hidden shadow-2xl border-primary/20">
+              <img 
+                src={selectedImage.src} 
+                alt={selectedImage.title} 
+                className="max-h-[85vh] w-auto object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+            <div className="bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full border border-border text-xs font-black uppercase tracking-widest text-foreground">
+              {selectedImage.title}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
