@@ -266,16 +266,16 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
           </div>
 
           <div className="space-y-4">
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-3 sm:gap-0">
               <div className="flex flex-col">
                 <span className="text-[10px] font-black uppercase text-muted-foreground">Distância do Stop</span>
-                <span className={`text-2xl font-black ${stats.distanceToThreshold < 500 ? 'text-red-500' : 'text-foreground'}`}>
+                <span className={`text-2xl font-black leading-tight ${stats.distanceToThreshold < 500 ? 'text-red-500' : 'text-foreground'}`}>
                   {stats.distanceToThreshold.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' })}
                 </span>
               </div>
-              <div className="text-right">
+              <div className="sm:text-right flex flex-col sm:items-end group-hover:translate-x-1 transition-transform">
                 <span className="text-[10px] font-black uppercase text-muted-foreground">Threshold</span>
-                <p className="text-sm font-bold text-muted-foreground">
+                <p className="text-sm font-bold text-muted-foreground tabular-nums">
                   {stats.drawdownThreshold.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' })}
                 </p>
               </div>

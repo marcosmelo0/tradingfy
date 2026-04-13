@@ -50,17 +50,15 @@ export const TradeItem = ({ trade }) => {
               {trade.type === 'C' ? 'LONG' : 'SHORT'}
             </span>
           </h4>
-          <div className="flex items-center gap-3 mt-1 min-w-0">
-            <span className="text-[11px] text-muted-foreground flex items-center gap-2 truncate">
-              <span className="flex items-center gap-1 shrink-0">
-                <Clock size={12} /> {formatDate(trade.openDate)}
-              </span>
-              {formatDuration(trade.openDate, trade.closeDate) && (
-                <span className="bg-muted px-1.5 py-0.5 rounded text-[9px] font-black text-primary shrink-0">
-                  {formatDuration(trade.openDate, trade.closeDate)}
-                </span>
-              )}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mt-1 min-w-0">
+            <span className="text-[11px] text-muted-foreground flex items-center gap-1 shrink-0">
+              <Clock size={12} /> {formatDate(trade.openDate)}
             </span>
+            {formatDuration(trade.openDate, trade.closeDate) && (
+              <span className="bg-muted px-1.5 py-0.5 rounded text-[9px] font-black text-primary w-fit">
+                {formatDuration(trade.openDate, trade.closeDate)}
+              </span>
+            )}
           </div>
         </div>
       </div>
