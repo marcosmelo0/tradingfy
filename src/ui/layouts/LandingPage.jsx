@@ -180,12 +180,12 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary p-2 rounded-xl text-primary-foreground">
-              <Zap size={24} fill="currentColor" />
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
+            <div className="bg-primary p-1.5 md:p-2 rounded-xl text-primary-foreground">
+              <Zap size={20} className="md:w-6 md:h-6" fill="currentColor" />
             </div>
-            <h1 className="text-2xl font-black tracking-tighter">TradingFy</h1>
+            <h1 className="text-lg md:text-2xl font-black tracking-tighter hidden min-[380px]:block">TradingFy</h1>
           </div>
           
           <nav className="hidden md:flex items-center gap-8">
@@ -193,18 +193,18 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">Planos</a>
           </nav>
 
-          <div className="flex items-center gap-3 sm:gap-6">
+          <div className="flex items-center gap-2 sm:gap-6 shrink-0">
             {!user && (
               <button 
                 onClick={onLogin}
-                className="text-sm font-bold text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                className="text-xs sm:text-sm font-bold text-muted-foreground hover:text-foreground transition-colors cursor-pointer px-1"
               >
                 Entrar
               </button>
             )}
             <button 
               onClick={user ? () => window.location.href = '/dashboard' : onStartTrial}
-              className="bg-primary text-primary-foreground px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
+              className="bg-primary text-primary-foreground px-3 py-2 sm:px-6 sm:py-2.5 rounded-xl font-bold text-[10px] sm:text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
             >
               {user ? 'Painel' : 'Experimentar'}
             </button>
