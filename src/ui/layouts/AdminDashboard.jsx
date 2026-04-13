@@ -108,6 +108,26 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleRemoveCoupon = async (userId, couponCode) => {
+    const confirmed = await confirm({
+      title: 'Revogar Cupom?',
+      message: `Deseja realmente revogar o cupom "${couponCode}" deste afiliado? Ele será forçado a criar um novo.`,
+      type: 'warning'
+    });
+
+    if (confirmed) {
+      const { error } = await supabase.rpc('admin_remove_coupon', {
+        target_user_id: userId
+      });
+
+      if (!error) {
+        fetchData();
+      } else {
+        alert('Erro ao revogar cupom: ' + error.message);
+      }
+    }
+  };
+
   const filteredUsers = users.filter(u => 
     (u.email?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
     u.id.toLowerCase().includes(searchTerm.toLowerCase())
@@ -170,6 +190,7 @@ const AdminDashboard = () => {
                     <th className="px-6 py-4">Usuário</th>
                     <th className="px-6 py-4">E-mail</th>
                     <th className="px-6 py-4">Status</th>
+                    <th className="px-6 py-4">Cupom</th>
                     <th className="px-6 py-4">Saldo</th>
                     <th className="px-6 py-4 text-right">Ações</th>
                   </tr>
@@ -188,6 +209,24 @@ const AdminDashboard = () => {
                           </span>
                           {u.is_affiliate && <Users size={14} className="text-blue-500" />}
                         </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        {u.coupon_code && String(u.coupon_code).toLowerCase() !== 'null' ? (
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-mono font-bold bg-primary/10 text-primary px-2 py-0.5 rounded">
+                              {u.coupon_code}
+                            </span>
+                            <button 
+                              onClick={() => handleRemoveCoupon(u.id, u.coupon_code)}
+                              className="text-red-500 hover:text-red-400 hover:bg-red-500/10 p-1 rounded transition-colors"
+                              title="Revogar Cupom"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-muted-foreground opacity-50">-</span>
+                        )}
                       </td>
                       <td className="px-6 py-4 text-sm font-black">
                         R$ {Number(u.affiliate_balance || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
