@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Principal (Landing Page) -->
   <url>
-    <loc>https://tradingfy.vercel.app/</loc>
+    <loc>https://tradingfy.com.br/</loc>
     <lastmod>2026-04-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
-  <!-- Planos / Pricing diretamente indexável pelo Google -->
+  <!-- Planos / Pricing diretamente indexÃ¡vel pelo Google -->
   <url>
-    <loc>https://tradingfy.vercel.app/plans</loc>
+    <loc>https://tradingfy.com.br/plans</loc>
     <lastmod>2026-04-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

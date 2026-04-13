@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { supabase } from '../../infrastructure/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { 
@@ -19,7 +19,7 @@ export const AffiliateDashboard = () => {
   const [copied, setCopied] = useState(false);
 
   // Link de indicado do parceiro
-  const affiliateLink = `https://tradingfy.vercel.app/?ref=${user?.profile?.coupon_code}`;
+  const affiliateLink = `https://tradingfy.com.br/?ref=${user?.profile?.coupon_code}`;
 
   useEffect(() => {
     fetchData();
@@ -77,7 +77,7 @@ export const AffiliateDashboard = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h1 className="text-5xl font-black tracking-tighter">Cockpit do <span className="text-primary">Embaixador</span></h1>
-          <p className="text-muted-foreground font-medium text-sm mt-1">Gerencie sua rede, acompanhe seus lucros e cresça com a TradingFy.</p>
+          <p className="text-muted-foreground font-medium text-sm mt-1">Gerencie sua rede, acompanhe seus lucros e cresÃ§a com a TradingFy.</p>
         </div>
         
         <div className="flex bg-muted/30 p-1.5 rounded-2xl border border-border">
@@ -100,7 +100,7 @@ export const AffiliateDashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <StatCard 
           icon={DollarSign} 
-          label="Saldo Disponível" 
+          label="Saldo DisponÃ­vel" 
           value={`R$ ${Number(stats.balance).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`} 
           color="bg-emerald-500/10 text-emerald-500"
           action={<button onClick={() => setShowWithdrawalModal(true)} className="text-[10px] font-black underline uppercase tracking-widest text-emerald-500/70 hover:text-emerald-500 transition-all cursor-pointer">Solicitar Saque</button>}
@@ -128,7 +128,7 @@ export const AffiliateDashboard = () => {
           <div className="flex-1 text-center lg:text-left">
             <h3 className="text-2xl font-black mb-3">Expanda sua Autoridade</h3>
             <p className="text-sm text-muted-foreground max-w-lg leading-relaxed">
-              Use seu cupom exclusivo <span className="text-primary font-bold">{user?.profile?.coupon_code}</span> para oferecer <span className="text-foreground font-bold">{user?.profile?.affiliate_discount}% de desconto</span> e desbloquear comissões automáticas para sua conta.
+              Use seu cupom exclusivo <span className="text-primary font-bold">{user?.profile?.coupon_code}</span> para oferecer <span className="text-foreground font-bold">{user?.profile?.affiliate_discount}% de desconto</span> e desbloquear comissÃµes automÃ¡ticas para sua conta.
             </p>
           </div>
           
@@ -144,7 +144,7 @@ export const AffiliateDashboard = () => {
               </button>
             </div>
             <button className="whitespace-nowrap bg-primary text-primary-foreground px-10 py-4 rounded-2xl font-black text-sm hover:scale-[1.03] active:scale-[0.97] shadow-xl shadow-primary/20 transition-all cursor-pointer">
-              DIVULGAR AGORA 🚀
+              DIVULGAR AGORA ðŸš€
             </button>
           </div>
         </div>
@@ -155,7 +155,7 @@ export const AffiliateDashboard = () => {
         <div className="bg-card/40 backdrop-blur-md border border-border rounded-[2.5rem] overflow-hidden animate-in slide-in-from-bottom-5 duration-700 shadow-xl">
           <div className="p-8 border-b border-border flex items-center justify-between bg-muted/10">
             <h3 className="font-bold flex items-center gap-3">
-              <History size={22} className="text-primary" /> Histórico de Saques Financeiros
+              <History size={22} className="text-primary" /> HistÃ³rico de Saques Financeiros
             </h3>
             <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest bg-muted/50 px-3 py-1.5 rounded-lg border border-border">Fluxo de Caixa</span>
           </div>
@@ -163,15 +163,15 @@ export const AffiliateDashboard = () => {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-muted/30 text-muted-foreground text-[10px] uppercase font-black tracking-widest border-b border-border">
-                  <th className="px-8 py-6">Data da Solicitação</th>
+                  <th className="px-8 py-6">Data da SolicitaÃ§Ã£o</th>
                   <th className="px-8 py-6">Valor do Resgate</th>
                   <th className="px-8 py-6">Status do Processo</th>
-                  <th className="px-8 py-6">Informação Adicional</th>
+                  <th className="px-8 py-6">InformaÃ§Ã£o Adicional</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {withdrawals.length === 0 ? (
-                  <tr><td colSpan="4" className="px-8 py-20 text-center text-muted-foreground italic font-bold">Nenhuma movimentação financeira registrada.</td></tr>
+                  <tr><td colSpan="4" className="px-8 py-20 text-center text-muted-foreground italic font-bold">Nenhuma movimentaÃ§Ã£o financeira registrada.</td></tr>
                 ) : (
                   withdrawals.map((w) => (
                     <tr key={w.id} className="hover:bg-muted/10 transition-colors group">
@@ -192,7 +192,7 @@ export const AffiliateDashboard = () => {
                         </span>
                       </td>
                       <td className="px-8 py-6 text-xs text-muted-foreground font-medium">
-                        {w.status === 'paid' ? 'Transferência enviada via PIX' : w.status === 'rejected' ? 'Saldo insuficiente ou erro técnico' : 'Aguardando processamento administrativo'}
+                        {w.status === 'paid' ? 'TransferÃªncia enviada via PIX' : w.status === 'rejected' ? 'Saldo insuficiente ou erro tÃ©cnico' : 'Aguardando processamento administrativo'}
                       </td>
                     </tr>
                   ))
@@ -215,14 +215,14 @@ export const AffiliateDashboard = () => {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-muted/30 text-muted-foreground text-[10px] uppercase font-black tracking-widest border-b border-border">
-                  <th className="px-8 py-6">Usuário (Identificação)</th>
+                  <th className="px-8 py-6">UsuÃ¡rio (IdentificaÃ§Ã£o)</th>
                   <th className="px-8 py-6">Data de Ingresso</th>
                   <th className="px-8 py-6 text-right">Status da Assinatura</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {referrals.length === 0 ? (
-                  <tr><td colSpan="3" className="px-8 py-20 text-center text-muted-foreground italic font-bold">Você ainda não possui membros indicados na sua rede exclusiva.</td></tr>
+                  <tr><td colSpan="3" className="px-8 py-20 text-center text-muted-foreground italic font-bold">VocÃª ainda nÃ£o possui membros indicados na sua rede exclusiva.</td></tr>
                 ) : (
                   referrals.map((r) => (
                     <tr key={r.user_id} className="hover:bg-muted/10 transition-colors group">
@@ -247,7 +247,7 @@ export const AffiliateDashboard = () => {
                           r.status === 'trial' ? 'bg-blue-500/10 text-blue-500' : 
                           'bg-red-500/10 text-red-500'
                         }`}>
-                          {r.status === 'active' ? 'ASSINANTE ATIVO' : r.status === 'trial' ? 'PERÍODO EXPERIMENTAL' : r.status === 'expired' ? 'PLANO ENCERRADO' : r.status}
+                          {r.status === 'active' ? 'ASSINANTE ATIVO' : r.status === 'trial' ? 'PERÃODO EXPERIMENTAL' : r.status === 'expired' ? 'PLANO ENCERRADO' : r.status}
                         </span>
                       </td>
                     </tr>

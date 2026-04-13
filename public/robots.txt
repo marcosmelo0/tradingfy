@@ -1,4 +1,4 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
 Disallow: /dashboard
 Disallow: /history
@@ -10,4 +10,4 @@ Disallow: /news
 Disallow: /topics
 Disallow: /accounts
 
-Sitemap: https://tradingfy.vercel.app/sitemap.xml
+Sitemap: https://tradingfy.com.br/sitemap.xml
