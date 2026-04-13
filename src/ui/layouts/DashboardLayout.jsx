@@ -131,6 +131,7 @@ export const DashboardLayout = () => {
           <TabButton path="/analytics" icon={<BarChart3 size={18} />} />
           <TabButton path="/news" icon={<Globe size={18} />} />
           <TabButton path="/topics" icon={<MessageSquare size={18} />} />
+          <TabButton path="/accounts" icon={<Settings size={18} />} />
           {user?.profile?.is_affiliate && <TabButton path="/affiliate" icon={<Users size={18} className="text-blue-500" />} />}
           {user?.isAdmin && <TabButton path="/admin" icon={<ShieldCheck size={18} className="text-primary" />} />}
         </div>

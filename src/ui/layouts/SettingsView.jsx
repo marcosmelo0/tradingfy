@@ -59,25 +59,27 @@ export const SettingsView = () => {
               <CreditCard size={28} />
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-xl font-black tracking-tight">Assinatura & Plano</h3>
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tighter ${
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                <h3 className="text-xl font-black tracking-tight whitespace-nowrap">Assinatura & Plano</h3>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tighter whitespace-nowrap ${
                   user?.profile?.subscription_status === 'active' ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'
                 }`}>
                   {user?.profile?.subscription_status === 'active' ? 'Ativo' : 'Trial / Pendente'}
                 </span>
               </div>
-              <p className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                Plano: <span className="text-foreground font-bold">{PLAN_NAMES[user?.profile?.plan_type] || 'Professional Edition'}</span>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  Plano: <span className="text-foreground font-bold">{PLAN_NAMES[user?.profile?.plan_type] || 'Professional Edition'}</span>
+                </span>
                 {user?.profile?.subscription_end_date && (
                   <>
-                    <span className="w-1 h-1 bg-border rounded-full"></span>
-                    <span className="flex items-center gap-1">
-                      <Calendar size={14} /> Expira em {new Date(user.profile.subscription_end_date).toLocaleDateString('pt-BR')}
+                    <span className="hidden xs:inline w-1 h-1 bg-border rounded-full"></span>
+                    <span className="flex items-center gap-1 whitespace-nowrap">
+                      <Calendar size={14} /> {new Date(user.profile.subscription_end_date).toLocaleDateString('pt-BR')}
                     </span>
                   </>
                 )}
-              </p>
+              </div>
               {user?.profile?.cancel_at_period_end && (
                 <div className="mt-2 flex items-center gap-1.5 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
                   <AlertCircle size={14} /> Assinatura será encerrada ao final do período
