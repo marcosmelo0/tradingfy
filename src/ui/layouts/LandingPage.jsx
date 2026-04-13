@@ -85,7 +85,7 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
         )}
         {/* Mensal */}
         <div 
-          onClick={() => handleSubscribe('price_1TLUGnDbUw3ACMsAYQtdFUwG')}
+          onClick={() => handleSubscribe('price_1TLPDZDbUw3ACMsAFMeTwJ8q')}
           className="bg-card border border-border px-4 py-8 md:p-8 rounded-3xl md:rounded-4xl flex flex-col hover:border-primary/50 transition-all group cursor-pointer w-full"
         >
           <div className="text-center md:text-left">
@@ -106,20 +106,20 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Monitor de Risco" />
           </ul>
           <button 
-            disabled={isCurrentPlan('price_1TLUGnDbUw3ACMsAYQtdFUwG')}
+            disabled={isCurrentPlan('price_1TLPDZDbUw3ACMsAFMeTwJ8q')}
             className={`w-full py-4 rounded-xl font-black transition-all shadow-xl shadow-foreground/10 ${
-              isCurrentPlan('price_1TLUGnDbUw3ACMsAYQtdFUwG') 
+              isCurrentPlan('price_1TLPDZDbUw3ACMsAFMeTwJ8q') 
               ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70' 
               : 'bg-foreground text-background hover:scale-105 cursor-pointer'
             }`}
           >
-            {getButtonLabel('price_1TLUGnDbUw3ACMsAYQtdFUwG', 'Escolher Plano')}
+            {getButtonLabel('price_1TLPDZDbUw3ACMsAFMeTwJ8q', 'Escolher Plano')}
           </button>
         </div>
 
         {/* Trimestral */}
         <div 
-          onClick={() => handleSubscribe('price_1TLUGpDbUw3ACMsAbLAs6mB6')}
+          onClick={() => handleSubscribe('price_1TLPDaDbUw3ACMsAwaiZMwW5')}
           className="bg-card border-2 border-primary px-4 py-8 md:p-8 rounded-3xl md:rounded-4xl flex flex-col relative shadow-2xl shadow-primary/10 md:scale-105 z-10 group cursor-pointer w-full my-4 md:my-0"
         >
           <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full whitespace-nowrap">
@@ -144,20 +144,20 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Monitor de Risco" />
           </ul>
           <button 
-            disabled={isCurrentPlan('price_1TLUGpDbUw3ACMsAbLAs6mB6')}
+            disabled={isCurrentPlan('price_1TLPDaDbUw3ACMsAwaiZMwW5')}
             className={`w-full py-4 rounded-xl font-black transition-all shadow-lg ${
-              isCurrentPlan('price_1TLUGpDbUw3ACMsAbLAs6mB6')
+              isCurrentPlan('price_1TLPDaDbUw3ACMsAwaiZMwW5')
               ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70'
               : 'bg-primary text-white shadow-primary/20 hover:scale-105 cursor-pointer'
             }`}
           >
-            {getButtonLabel('price_1TLUGpDbUw3ACMsAbLAs6mB6', 'Assinar Agora')}
+            {getButtonLabel('price_1TLPDaDbUw3ACMsAwaiZMwW5', 'Assinar Agora')}
           </button>
         </div>
 
         {/* Semestral */}
         <div 
-          onClick={() => handleSubscribe('price_1TLUGpDbUw3ACMsAl5oIwhM1')}
+          onClick={() => handleSubscribe('price_1TLPDaDbUw3ACMsAEjCiKZzh')}
           className="bg-card border border-border px-3 py-8 md:p-8 rounded-3xl md:rounded-4xl flex flex-col hover:border-primary/50 transition-all group cursor-pointer w-full"
         >
           <div className="text-center md:text-left">
@@ -178,14 +178,14 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
             <Benefit text="Monitor de Risco" />
           </ul>
           <button 
-            disabled={isCurrentPlan('price_1TLUGpDbUw3ACMs Al5oIwhM1')}
+            disabled={isCurrentPlan('price_1TLPDaDbUw3ACMsAEjCiKZzh')}
             className={`w-full py-4 rounded-xl font-black transition-all shadow-xl shadow-foreground/10 ${
-              isCurrentPlan('price_1TLUGpDbUw3ACMsAl5oIwhM1')
+              isCurrentPlan('price_1TLPDaDbUw3ACMsAEjCiKZzh')
               ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70'
               : 'bg-foreground text-background hover:scale-105 cursor-pointer'
             }`}
           >
-            {getButtonLabel('price_1TLUGpDbUw3ACMsAl5oIwhM1', 'Escolher Plano')}
+            {getButtonLabel('price_1TLPDaDbUw3ACMsAEjCiKZzh', 'Escolher Plano')}
           </button>
         </div>
       </div>
