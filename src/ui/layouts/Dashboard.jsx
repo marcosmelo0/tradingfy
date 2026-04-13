@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { TradeItem } from '../components/TradeItem';
 import { FileUpload } from '../components/FileUpload';
@@ -26,11 +27,32 @@ import {
 } from 'lucide-react';
 
 export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { activeAccount, registerWithdrawal } = useAccounts();
   const { confirm } = useModal();
   const [uploading, setUploading] = useState(false);
   const [fileName, setFileName] = useState('');
+
+  // Access Validation Logic
+  const hasActiveAccess = useMemo(() => {
+    if (!user?.profile) return false;
+    const status = user.profile.subscription_status;
+    
+    // Admins and Active subscribers always have access
+    if (status === 'active' || status === 'admin') return true;
+    
+    // Trial logic: 7 days from trial_start_date or created_at
+    if (status === 'trial') {
+      const trialStart = new Date(user.profile.trial_start_date || user.profile.created_at);
+      const now = new Date();
+      const diffTime = Math.abs(now - trialStart);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays <= 7;
+    }
+    
+    return false;
+  }, [user]);
 
   const stats = useMemo(() =>
     StatisticsService.calculate(trades, {
@@ -45,6 +67,7 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
 
   const handleFileSelect = async (file) => {
     if (!activeAccount) return;
+    if (!hasActiveAccess) return;
 
     setUploading(true);
     setFileName(file.name);
@@ -90,7 +113,25 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
         <div className="flex flex-col sm:flex-row gap-3">
 
           <div className="w-full md:w-80">
-            {uploading ? (
+            {!hasActiveAccess ? (
+              <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-4 flex flex-col gap-3 group hover:bg-red-500/10 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-red-500/20 text-red-500 rounded-lg">
+                    <ShieldAlert size={18} />
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-red-500">Acesso Expirado</h4>
+                    <p className="text-[10px] font-bold text-muted-foreground leading-tight">Renove para enviar trades</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => navigate('/plans')}
+                  className="w-full py-2 bg-red-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-red-500/20 cursor-pointer"
+                >
+                  Renovar Assinatura
+                </button>
+              </div>
+            ) : uploading ? (
               <div className="flex items-center justify-center p-4 bg-card border border-border rounded-xl animate-pulse">
                 <Loader2 className="animate-spin text-primary mr-2" size={18} />
                 <span className="text-sm font-bold">Sincronizando...</span>

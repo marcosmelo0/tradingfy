@@ -56,26 +56,57 @@ serve(async (req) => {
       .eq("id", user.id)
       .single()
 
-    const session = await stripe.checkout.sessions.create({
-      customer_email: user.email,
-      client_reference_id: user.id,
-      payment_method_types: ["card"],
-      line_items: [{ price: priceId, quantity: 1 }],
-      mode: "subscription",
-      allow_promotion_codes: true,
-      discounts: hasAffiliate ? [{ coupon: "TRADINGBLACK" }] : [],
-      success_url: `${req.headers.get("origin")}?success=true`,
-      cancel_url: `${req.headers.get("origin")}?canceled=true`,
-      metadata: {
-        userId: user.id,
-        affiliateId: profile?.affiliate_id || "",
-      },
-      subscription_data: {
+    let session;
+    try {
+      console.log(`💳 Tentando gerar checkout para ${priceId} (Com Cupom: ${hasAffiliate})`)
+      session = await stripe.checkout.sessions.create({
+        customer_email: user.email,
+        client_reference_id: user.id,
+        payment_method_types: ["card"],
+        line_items: [{ price: priceId, quantity: 1 }],
+        mode: "subscription",
+        allow_promotion_codes: true,
+        discounts: hasAffiliate ? [{ coupon: "TRADINGBLACK" }] : [],
+        success_url: `${req.headers.get("origin")}?success=true`,
+        cancel_url: `${req.headers.get("origin")}?canceled=true`,
         metadata: {
           userId: user.id,
+          affiliateId: profile?.affiliate_id || "",
         },
-      },
-    })
+        subscription_data: {
+          metadata: {
+            userId: user.id,
+          },
+        },
+      })
+    } catch (stripeError) {
+      console.error("⚠️ Falha ao aplicar cupom ou criar sessão inicial:", stripeError.message)
+      
+      if (hasAffiliate) {
+        console.log("🔄 Tentando checkout de fallback sem cupom...")
+        session = await stripe.checkout.sessions.create({
+          customer_email: user.email,
+          client_reference_id: user.id,
+          payment_method_types: ["card"],
+          line_items: [{ price: priceId, quantity: 1 }],
+          mode: "subscription",
+          allow_promotion_codes: true,
+          success_url: `${req.headers.get("origin")}?success=true`,
+          cancel_url: `${req.headers.get("origin")}?canceled=true`,
+          metadata: {
+            userId: user.id,
+            affiliateId: profile?.affiliate_id || "",
+          },
+          subscription_data: {
+            metadata: {
+              userId: user.id,
+            },
+          },
+        })
+      } else {
+        throw stripeError
+      }
+    }
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
