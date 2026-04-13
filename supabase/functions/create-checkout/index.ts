@@ -49,6 +49,12 @@ serve(async (req) => {
 
     const { priceId, hasAffiliate } = await req.json()
 
+    // Admin client to look up affiliate data (avoids 403 errors)
+    const adminClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+    )
+
     // Get current profile for metadata
     const { data: profile } = await supabaseClient
       .from("profiles")
@@ -56,9 +62,24 @@ serve(async (req) => {
       .eq("id", user.id)
       .single()
 
+    // NEW: Look up the actual coupon code of the affiliate
+    let affiliateCoupon = "TRADING10" // Default fallback
+    if (profile?.affiliate_id) {
+      const { data: affiliateProfile } = await adminClient
+        .from("profiles")
+        .select("coupon_code")
+        .eq("id", profile.affiliate_id)
+        .single()
+      
+      if (affiliateProfile?.coupon_code) {
+        affiliateCoupon = affiliateProfile.coupon_code
+        console.log(`🎯 Usando cupom personalizado do afiliado: ${affiliateCoupon}`)
+      }
+    }
+
     let session;
     try {
-      console.log(`💳 Tentando gerar checkout para ${priceId} (Com Cupom: ${hasAffiliate})`)
+      console.log(`💳 Tentando gerar checkout para ${priceId} (Cupom: ${hasAffiliate ? affiliateCoupon : 'Nenhum'})`)
       session = await stripe.checkout.sessions.create({
         customer_email: user.email,
         client_reference_id: user.id,
@@ -66,7 +87,7 @@ serve(async (req) => {
         line_items: [{ price: priceId, quantity: 1 }],
         mode: "subscription",
         allow_promotion_codes: true,
-        discounts: hasAffiliate ? [{ coupon: "TRADINGBLACK" }] : [],
+        discounts: hasAffiliate ? [{ coupon: affiliateCoupon }] : [],
         success_url: `${req.headers.get("origin")}?success=true`,
         cancel_url: `${req.headers.get("origin")}?canceled=true`,
         metadata: {
@@ -82,30 +103,30 @@ serve(async (req) => {
     } catch (stripeError) {
       console.error("⚠️ Falha ao aplicar cupom ou criar sessão inicial:", stripeError.message)
       
-      if (hasAffiliate) {
-        console.log("🔄 Tentando checkout de fallback sem cupom...")
-        session = await stripe.checkout.sessions.create({
-          customer_email: user.email,
-          client_reference_id: user.id,
-          payment_method_types: ["card"],
-          line_items: [{ price: priceId, quantity: 1 }],
-          mode: "subscription",
-          allow_promotion_codes: true,
-          success_url: `${req.headers.get("origin")}?success=true`,
-          cancel_url: `${req.headers.get("origin")}?canceled=true`,
+      // Fallback: Tentativa final com o cupom global TRADING10 ou sem cupom
+      const fallbackCoupon = affiliateCoupon !== "TRADING10" ? "TRADING10" : null;
+      
+      console.log(`🔄 Tentando checkout de fallback (Cupom: ${fallbackCoupon || 'Nenhum'})`)
+      session = await stripe.checkout.sessions.create({
+        customer_email: user.email,
+        client_reference_id: user.id,
+        payment_method_types: ["card"],
+        line_items: [{ price: priceId, quantity: 1 }],
+        mode: "subscription",
+        allow_promotion_codes: true,
+        discounts: fallbackCoupon ? [{ coupon: fallbackCoupon }] : [],
+        success_url: `${req.headers.get("origin")}?success=true`,
+        cancel_url: `${req.headers.get("origin")}?canceled=true`,
+        metadata: {
+          userId: user.id,
+          affiliateId: profile?.affiliate_id || "",
+        },
+        subscription_data: {
           metadata: {
             userId: user.id,
-            affiliateId: profile?.affiliate_id || "",
           },
-          subscription_data: {
-            metadata: {
-              userId: user.id,
-            },
-          },
-        })
-      } else {
-        throw stripeError
-      }
+        },
+      })
     }
 
     return new Response(JSON.stringify({ url: session.url }), {
