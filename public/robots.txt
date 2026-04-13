@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /history
+Disallow: /analytics
+Disallow: /admin
+Disallow: /settings
+Disallow: /affiliate
+Disallow: /news
+Disallow: /topics
+Disallow: /accounts
+
+Sitemap: https://tradingfy.vercel.app/sitemap.xml
