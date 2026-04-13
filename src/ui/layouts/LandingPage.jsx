@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Zap, CheckCircle2, Shield, BarChart3, ArrowRight, Star, Users, TrendingUp, Clock, Globe, X } from 'lucide-react';
+import { Zap, CheckCircle2, Shield, BarChart3, ArrowRight, Star, Users, TrendingUp, Clock, Globe, X, Search } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
@@ -267,7 +267,7 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
           <div className="relative group">
             <div className="absolute -inset-1 bg-linear-to-r from-primary to-orange-500 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
               <div 
-                className="relative aspect-video bg-card border border-border rounded-[2.5rem] overflow-hidden shadow-2xl cursor-zoom-in"
+                className="relative aspect-video bg-card border border-border rounded-[2.5rem] overflow-hidden shadow-2xl cursor-zoom-in group/img"
                 onClick={() => setSelectedImage({ src: "/assets/screenshots/dashboard.png", title: "Painel de Controle" })}
               >
                 <img 
@@ -276,6 +276,11 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
                   className="w-full h-full object-cover object-top hover:scale-[1.02] transition-transform duration-700"
                   onError={(e) => e.target.src = "https://placehold.co/1200x800/111/fff?text=Dashboard+Preview"}
                 />
+                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-background/40 backdrop-blur-md p-5 rounded-full border border-white/20 text-white transform scale-75 group-hover/img:scale-100 transition-transform duration-500 shadow-2xl">
+                    <Search size={32} />
+                  </div>
+                </div>
               </div>
           </div>
           
@@ -310,14 +315,19 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
                   <Benefit text="Comportamento operacional por dia/horário" />
                 </ul>
               </div>
-              <div className="flex-[1.5] relative group cursor-zoom-in" onClick={() => setSelectedImage({ src: "/assets/screenshots/analytics.png", title: "Inteligência Analítica" })}>
-                <div className="absolute -inset-4 bg-blue-500/10 rounded-4xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="flex-[1.5] relative group/img cursor-zoom-in overflow-hidden rounded-3xl" onClick={() => setSelectedImage({ src: "/assets/screenshots/analytics.png", title: "Inteligência Analítica" })}>
+                <div className="absolute -inset-4 bg-blue-500/10 rounded-4xl blur-xl opacity-0 group-hover/img:opacity-100 transition-opacity"></div>
                 <img 
                   src="/assets/screenshots/analytics.png" 
                   alt="Analytics Intelligence" 
-                  className="rounded-3xl border border-border shadow-2xl relative transition-transform duration-500 group-hover:-translate-y-2"
+                  className="rounded-3xl border border-border shadow-2xl relative transition-transform duration-500 group-hover/img:-translate-y-2"
                   onError={(e) => e.target.src = "https://placehold.co/800x600/111/fff?text=Analytics+Intelligence"}
                 />
+                <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-background/40 backdrop-blur-md p-4 rounded-full border border-white/20 text-white transform scale-75 group-hover/img:scale-100 transition-transform duration-500">
+                    <Search size={28} />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -336,14 +346,19 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
                   <Benefit text="Visualização rápida de logs de execução" />
                 </ul>
               </div>
-              <div className="flex-[1.5] relative group cursor-zoom-in" onClick={() => setSelectedImage({ src: "/assets/screenshots/history.png", title: "Histórico Operacional" })}>
-                <div className="absolute -inset-4 bg-purple-500/10 rounded-4xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="flex-[1.5] relative group/img cursor-zoom-in overflow-hidden rounded-3xl" onClick={() => setSelectedImage({ src: "/assets/screenshots/history.png", title: "Histórico Operacional" })}>
+                <div className="absolute -inset-4 bg-purple-500/10 rounded-4xl blur-xl opacity-0 group-hover/img:opacity-100 transition-opacity"></div>
                 <img 
                   src="/assets/screenshots/history.png" 
                   alt="Operational History" 
-                  className="rounded-3xl border border-border shadow-2xl relative transition-transform duration-500 group-hover:-translate-y-2"
+                  className="rounded-3xl border border-border shadow-2xl relative transition-transform duration-500 group-hover/img:-translate-y-2"
                   onError={(e) => e.target.src = "https://placehold.co/800x600/111/fff?text=Operational+History"}
                 />
+                <div className="absolute inset-0 bg-purple-500/10 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-background/40 backdrop-blur-md p-4 rounded-full border border-white/20 text-white transform scale-75 group-hover/img:scale-100 transition-transform duration-500">
+                    <Search size={28} />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -362,14 +377,19 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
                   <Benefit text="Filtro de impacto de 3 touros" />
                 </ul>
               </div>
-              <div className="flex-[1.5] relative group cursor-zoom-in" onClick={() => setSelectedImage({ src: "/assets/screenshots/news.png", title: "Mercado Global e Notícias" })}>
-                <div className="absolute -inset-4 bg-orange-500/10 rounded-4xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="flex-[1.5] relative group/img cursor-zoom-in overflow-hidden rounded-3xl" onClick={() => setSelectedImage({ src: "/assets/screenshots/news.png", title: "Mercado Global e Notícias" })}>
+                <div className="absolute -inset-4 bg-orange-500/10 rounded-4xl blur-xl opacity-0 group-hover/img:opacity-100 transition-opacity"></div>
                 <img 
                   src="/assets/screenshots/news.png" 
                   alt="Global News and Events" 
-                  className="rounded-3xl border border-border shadow-2xl relative transition-transform duration-500 group-hover:-translate-y-2"
+                  className="rounded-3xl border border-border shadow-2xl relative transition-transform duration-500 group-hover/img:-translate-y-2"
                   onError={(e) => e.target.src = "https://placehold.co/800x600/111/fff?text=Global+News"}
                 />
+                <div className="absolute inset-0 bg-orange-500/10 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-background/40 backdrop-blur-md p-4 rounded-full border border-white/20 text-white transform scale-75 group-hover/img:scale-100 transition-transform duration-500">
+                    <Search size={28} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
