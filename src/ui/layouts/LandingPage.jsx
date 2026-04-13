@@ -475,11 +475,11 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
           </button>
           
           <div className="relative max-w-7xl w-full flex flex-col items-center gap-4 animate-in zoom-in-95 duration-300">
-            <div className="relative rounded-2xl md:rounded-[2rem] overflow-hidden shadow-2xl border border-primary/20 bg-background/50">
+            <div className="relative rounded-2xl md:rounded-[2rem] border border-primary/20 shadow-2xl bg-transparent overflow-hidden">
               <img 
                 src={selectedImage.src} 
                 alt={selectedImage.title} 
-                className="max-h-[88vh] md:max-h-[85vh] w-auto max-w-[95vw] md:max-w-full object-contain"
+                className="max-h-[88vh] md:max-h-[85vh] w-auto max-w-[95vw] md:max-w-full object-contain block shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
               />
             </div>
