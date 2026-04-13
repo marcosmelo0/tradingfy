@@ -63,13 +63,25 @@ export const AuthProvider = ({ children }) => {
   const subscribe = async (priceId, hasAffiliate = false) => {
     try {
       setIsProcessing(true);
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) throw new Error('Usuário não autenticado.');
+
+      // Force token refresh to avoid 401 from expired JWT
+      const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
+      const session = refreshData?.session;
+
+      if (refreshError || !session) {
+        // Fallback: try current session
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        if (!currentSession) throw new Error('Usuário não autenticado. Faça login novamente.');
+      }
+
+      // Use the freshest token available
+      const { data: { session: finalSession } } = await supabase.auth.getSession();
+      if (!finalSession) throw new Error('Sessão expirada. Faça login novamente.');
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { priceId, hasAffiliate },
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${finalSession.access_token}`,
         },
       });
 
@@ -87,12 +99,18 @@ export const AuthProvider = ({ children }) => {
   const manageSubscription = async () => {
     try {
       setIsProcessing(true);
+
+      // Force token refresh to avoid 401 errors
+      const { data: refreshData } = await supabase.auth.refreshSession();
+      const freshSession = refreshData?.session;
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) throw new Error('Usuário não autenticado.');
+      const activeSession = freshSession || session;
+
+      if (!activeSession) throw new Error('Usuário não autenticado.');
 
       const { data, error } = await supabase.functions.invoke('create-portal-link', {
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${activeSession.access_token}`,
         },
       });
       if (error) throw error;
