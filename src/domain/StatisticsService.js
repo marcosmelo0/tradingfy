@@ -42,12 +42,42 @@ export class StatisticsService {
     let currentPnL = 0;
     let peakPnL = 0;
     let maxDD = 0;
-    results.forEach(r => {
-      currentPnL += r;
-      if (currentPnL > peakPnL) peakPnL = currentPnL;
-      const dd = peakPnL - currentPnL;
-      if (dd > maxDD) maxDD = dd;
-    });
+    
+    if (accountSettings.type === 'challenge') {
+      const tradesByDay = {};
+      trades.forEach(t => {
+         const day = t.closeDate 
+           ? new Date(t.closeDate).toISOString().split('T')[0] 
+           : new Date().toISOString().split('T')[0];
+         if (!tradesByDay[day]) tradesByDay[day] = [];
+         tradesByDay[day].push(t);
+      });
+
+      let worstDailyDD = 0;
+      Object.values(tradesByDay).forEach(dailyTrades => {
+         let dailyPnL = 0;
+         dailyTrades.forEach(t => {
+            dailyPnL += t.result;
+            if (dailyPnL < 0 && Math.abs(dailyPnL) > worstDailyDD) {
+              worstDailyDD = Math.abs(dailyPnL);
+            }
+         });
+      });
+      maxDD = worstDailyDD;
+      
+      // Still need peakPnL for other calculations
+      results.forEach(r => {
+        currentPnL += r;
+        if (currentPnL > peakPnL) peakPnL = currentPnL;
+      });
+    } else {
+      results.forEach(r => {
+        currentPnL += r;
+        if (currentPnL > peakPnL) peakPnL = currentPnL;
+        const dd = peakPnL - currentPnL;
+        if (dd > maxDD) maxDD = dd;
+      });
+    }
 
     // Rule: Diferent drawdown behaviors
     const initialBalance = accountSettings.initialMargin || 0;
