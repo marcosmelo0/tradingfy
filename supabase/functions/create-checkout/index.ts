@@ -20,22 +20,26 @@ serve(async (req) => {
   try {
     const authHeader = req.headers.get("Authorization") || req.headers.get("authorization")
     
-    // Log detalhado para depuração (Remova em produção)
-    console.log("📥 Requisição recebida. Headers:", JSON.stringify(Object.fromEntries(req.headers.entries())))
     console.log(`🔑 Auth Header presente: ${!!authHeader}`)
 
     if (!authHeader) {
       console.error("❌ Cabeçalho de autorização ausente.")
-      throw new Error("Missing Authorization header")
+      return new Response(JSON.stringify({ error: "Missing Authorization header" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+      })
     }
 
+    // Extract token and validate directly
+    const token = authHeader.replace("Bearer ", "")
+    
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      { global: { headers: { Authorization: authHeader } } }
     )
 
-    const { data: { user }, error: userError } = await supabaseClient.auth.getUser()
+    // Validate the JWT token directly (most reliable method)
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser(token)
     
     if (userError || !user) {
       console.error("❌ Falha ao validar usuário:", userError?.message || "Usuário não encontrado")

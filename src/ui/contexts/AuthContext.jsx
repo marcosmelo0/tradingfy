@@ -71,9 +71,12 @@ export const AuthProvider = ({ children }) => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Sessão expirada. Faça login novamente.');
 
-      // The Supabase client automatically injects the Authorization header
+      // Pass token explicitly since function uses --no-verify-jwt
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { priceId, hasAffiliate },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
       });
 
       if (error) throw error;
