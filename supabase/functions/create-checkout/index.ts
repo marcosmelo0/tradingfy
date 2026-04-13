@@ -84,14 +84,13 @@ serve(async (req) => {
     let session;
     try {
       console.log(`💳 Tentando gerar checkout para ${priceId} (Cupom: ${hasAffiliate ? affiliateCoupon : 'Nenhum'})`)
-      session = await stripe.checkout.sessions.create({
+      
+      const sessionParams = {
         customer_email: user.email,
         client_reference_id: user.id,
         payment_method_types: ["card"],
         line_items: [{ price: priceId, quantity: 1 }],
         mode: "subscription",
-        allow_promotion_codes: true,
-        discounts: hasAffiliate ? [{ coupon: affiliateCoupon }] : [],
         success_url: `${req.headers.get("origin")}?success=true`,
         cancel_url: `${req.headers.get("origin")}?canceled=true`,
         metadata: {
@@ -103,14 +102,21 @@ serve(async (req) => {
             userId: user.id,
           },
         },
-      })
+      }
+
+      // Stripe does NOT allow 'allow_promotion_codes' AND 'discounts' together
+      if (hasAffiliate && affiliateCoupon) {
+        sessionParams.discounts = [{ coupon: affiliateCoupon }]
+      } else {
+        sessionParams.allow_promotion_codes = true
+      }
+
+      session = await stripe.checkout.sessions.create(sessionParams)
     } catch (stripeError) {
-      console.error("⚠️ Falha ao aplicar cupom ou criar sessão inicial:", stripeError.message)
+      console.error("⚠️ Falha na sessão do Stripe:", stripeError.message)
       
-      // Fallback: Tentativa final com o cupom global TRADING10 ou sem cupom
-      const fallbackCoupon = affiliateCoupon !== "TRADING10" ? "TRADING10" : null;
-      
-      console.log(`🔄 Tentando checkout de fallback (Cupom: ${fallbackCoupon || 'Nenhum'})`)
+      // Fallback: sem cupom, só promotion codes
+      console.log("🔄 Tentando checkout sem cupom...")
       session = await stripe.checkout.sessions.create({
         customer_email: user.email,
         client_reference_id: user.id,
@@ -118,7 +124,6 @@ serve(async (req) => {
         line_items: [{ price: priceId, quantity: 1 }],
         mode: "subscription",
         allow_promotion_codes: true,
-        discounts: fallbackCoupon ? [{ coupon: fallbackCoupon }] : [],
         success_url: `${req.headers.get("origin")}?success=true`,
         cancel_url: `${req.headers.get("origin")}?canceled=true`,
         metadata: {
