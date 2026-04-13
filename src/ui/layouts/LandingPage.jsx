@@ -1,20 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { Zap, CheckCircle2, Shield, BarChart3, ArrowRight, Star, Users, TrendingUp, Clock, Globe, X, Search } from 'lucide-react';
+import { Zap, CheckCircle2, Shield, BarChart3, ArrowRight, Star, Users, TrendingUp, Clock, Globe, X, Search, ZoomIn, ZoomOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
   const [ref, setRef] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [zoomScale, setZoomScale] = useState(1);
   const { user, subscribe } = useAuth();
 
   // Handle Escape key to close modal
   useEffect(() => {
     const handleEsc = (e) => {
-      if (e.key === 'Escape') setSelectedImage(null);
+      if (e.key === 'Escape') {
+        setSelectedImage(null);
+        setZoomScale(1);
+      }
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
+
+  const handleZoomIn = (e) => {
+    e.stopPropagation();
+    setZoomScale(prev => Math.min(prev + 0.25, 3));
+  };
+
+  const handleZoomOut = (e) => {
+    e.stopPropagation();
+    setZoomScale(prev => Math.max(prev - 0.25, 0.5));
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -481,30 +495,67 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
       {/* Image Lightbox Modal */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/90 backdrop-blur-md animate-in fade-in duration-300"
-          onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-md animate-in fade-in duration-300 overflow-hidden"
+          onClick={() => {
+            setSelectedImage(null);
+            setZoomScale(1);
+          }}
         >
-          <button 
-            className="absolute top-6 right-6 p-2 bg-card border border-border rounded-full hover:bg-muted transition-colors text-foreground z-[110]"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedImage(null);
-            }}
-          >
-            <X size={24} />
-          </button>
-          
-          <div className="relative max-w-7xl w-full flex flex-col items-center gap-4 animate-in zoom-in-95 duration-300">
-            <div className="relative rounded-2xl md:rounded-[2rem] border border-primary/20 shadow-2xl bg-transparent overflow-hidden">
-              <img 
-                src={selectedImage.src} 
-                alt={selectedImage.title} 
-                className="max-h-[88vh] md:max-h-[85vh] w-auto max-w-[95vw] md:max-w-full object-contain block shadow-2xl"
-                onClick={(e) => e.stopPropagation()}
-              />
-            </div>
-            <div className="bg-background/80 backdrop-blur-sm px-6 py-2 rounded-full border border-border text-xs font-black uppercase tracking-widest text-foreground shadow-xl">
+          {/* Top Bar */}
+          <div className="absolute top-0 w-full p-6 flex items-center justify-between z-[110] bg-linear-to-b from-background to-transparent pointer-events-none">
+            <div className="bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full border border-border text-xs font-black uppercase tracking-widest text-foreground pointer-events-auto">
               {selectedImage.title}
+            </div>
+            
+            <button 
+              className="p-3 bg-card border border-border rounded-full hover:bg-muted transition-colors text-foreground shadow-xl pointer-events-auto"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedImage(null);
+                setZoomScale(1);
+              }}
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          {/* Zoom Toolbar */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-2 p-2 bg-card/80 backdrop-blur-xl border border-border rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-500">
+            <button 
+              onClick={handleZoomOut}
+              className="p-3 hover:bg-white/10 rounded-xl transition-colors text-foreground disabled:opacity-30"
+              disabled={zoomScale <= 0.5}
+              title="Zoom Out"
+            >
+              <ZoomOut size={20} />
+            </button>
+            <div className="px-4 border-x border-border min-w-[80px] text-center">
+              <span className="text-sm font-black tabular-nums">{Math.round(zoomScale * 100)}%</span>
+            </div>
+            <button 
+              onClick={handleZoomIn}
+              className="p-3 hover:bg-white/10 rounded-xl transition-colors text-foreground disabled:opacity-30"
+              disabled={zoomScale >= 3}
+              title="Zoom In"
+            >
+              <ZoomIn size={20} />
+            </button>
+          </div>
+          
+          {/* Scrollable Container */}
+          <div className="w-full h-full overflow-auto flex items-center justify-center p-4 pt-24 pb-32 custom-scrollbar">
+            <div 
+              className="relative transition-transform duration-300 ease-out origin-center"
+              style={{ transform: `scale(${zoomScale})` }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="rounded-2xl md:rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-primary/20 bg-background/50">
+                <img 
+                  src={selectedImage.src} 
+                  alt={selectedImage.title} 
+                  className="max-h-[80vh] w-auto max-w-[90vw] md:max-w-none object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
