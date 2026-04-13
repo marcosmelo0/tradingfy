@@ -306,7 +306,7 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
       </section>
 
       {/* System Tour Section */}
-      <section className="py-24 px-6 bg-muted/20">
+      <section id="features" className="py-24 px-6 bg-muted/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-4">Explore a Ferramenta</h2>
