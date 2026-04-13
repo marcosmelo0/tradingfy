@@ -54,13 +54,13 @@ export const SettingsView = () => {
         <div className="absolute -right-8 -top-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all"></div>
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-          <div className="flex items-center gap-5">
-            <div className="p-4 bg-primary/10 text-primary rounded-2xl">
+          <div className="flex items-center gap-3 md:gap-5">
+            <div className="p-4 bg-primary/10 text-primary rounded-2xl shrink-0">
               <CreditCard size={28} />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 mb-1">
-                <h3 className="text-xl font-black tracking-tight whitespace-nowrap">Assinatura & Plano</h3>
+                <h3 className="text-xl font-black tracking-tight">Assinatura & Plano</h3>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tighter whitespace-nowrap ${
                   user?.profile?.subscription_status === 'active' ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'
                 }`}>
