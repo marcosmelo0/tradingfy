@@ -122,7 +122,7 @@ export const AffiliateDashboard = () => {
       </div>
 
       {/* Sharing Tools */}
-      <div className="bg-card/40 backdrop-blur-md border border-border p-10 rounded-[3rem] relative overflow-hidden group shadow-2xl">
+      <div className="bg-card/40 backdrop-blur-md border border-border p-6 md:p-10 rounded-[2.5rem] md:rounded-[3rem] relative overflow-hidden group shadow-2xl">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:bg-primary/10 transition-colors duration-1000" />
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
           <div className="flex-1 text-center lg:text-left">
@@ -133,7 +133,7 @@ export const AffiliateDashboard = () => {
           </div>
           
           <div className="w-full lg:w-auto flex flex-col md:flex-row items-center gap-6">
-            <div className="flex-1 min-w-[300px] bg-background/50 border border-border rounded-2xl px-6 py-4 flex items-center justify-between gap-4 group-hover:border-primary/40 transition-all shadow-inner">
+            <div className="flex-1 w-full md:min-w-[300px] bg-background/50 border border-border rounded-2xl px-6 py-4 flex items-center justify-between gap-4 group-hover:border-primary/40 transition-all shadow-inner">
               <span className="text-xs font-mono text-muted-foreground truncate select-all">{affiliateLink}</span>
               <button 
                 onClick={copyToClipboard}

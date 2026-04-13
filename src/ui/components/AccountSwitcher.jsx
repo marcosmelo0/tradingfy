@@ -30,7 +30,7 @@ export const AccountSwitcher = () => {
             className="fixed inset-0 z-40" 
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute left-0 lg:right-0 lg:left-auto mt-2 w-64 bg-card border border-border p-2 rounded-2xl shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute left-0 md:right-0 md:left-auto mt-2 w-[calc(100vw-3rem)] sm:w-64 bg-card border border-border p-2 rounded-2xl shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
             <div className="px-3 py-2 border-b border-border/50 mb-2">
               <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Suas Contas</p>
             </div>

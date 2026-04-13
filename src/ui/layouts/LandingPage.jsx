@@ -191,6 +191,9 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
           <nav className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">Funcionalidades</a>
             <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">Planos</a>
+          </nav>
+
+          <div className="flex items-center gap-3 sm:gap-6">
             {!user && (
               <button 
                 onClick={onLogin}
@@ -199,14 +202,13 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
                 Entrar
               </button>
             )}
-          </nav>
-
-          <button 
-            onClick={user ? () => window.location.href = '/dashboard' : onStartTrial}
-            className="bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-          >
-            {user ? 'Acessar Painel' : 'Experimentar Grátis'}
-          </button>
+            <button 
+              onClick={user ? () => window.location.href = '/dashboard' : onStartTrial}
+              className="bg-primary text-primary-foreground px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
+            >
+              {user ? 'Painel' : 'Experimentar'}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -232,10 +234,10 @@ export const LandingPage = ({ onStartTrial, onLogin, onlyPricing = false }) => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-700">
             <button 
               onClick={user ? () => window.location.href = '/dashboard' : onStartTrial}
-              className="w-full sm:w-auto bg-primary text-white text-lg px-10 py-5 rounded-2xl font-black shadow-2xl shadow-primary/30 flex items-center justify-center gap-2 hover:scale-[1.05] active:scale-[0.95] transition-all cursor-pointer group"
+              className="w-full sm:w-auto bg-primary text-white text-base md:text-lg px-8 py-4 md:px-10 md:py-5 rounded-2xl font-black shadow-2xl shadow-primary/30 flex items-center justify-center gap-2 hover:scale-[1.05] active:scale-[0.95] transition-all cursor-pointer group"
             >
               {user ? 'Acessar Painel' : 'Começar Trial de 7 Dias'}
-              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <div className="text-sm font-medium text-muted-foreground">
               Sem cartão de crédito · Acesso completo

@@ -38,25 +38,25 @@ export const TradeItem = ({ trade }) => {
   };
 
   return (
-    <div className="group flex items-center justify-between p-4 rounded-xl border border-border bg-card/50 hover:bg-card hover:border-muted-foreground/30 transition-all duration-200">
-      <div className="flex items-center gap-4">
-        <div className={`p-2.5 rounded-lg ${trade.type === 'C' ? 'bg-blue-500/10 text-blue-500' : 'bg-red-500/10 text-red-500'}`}>
+    <div className="group flex items-center justify-between p-4 rounded-xl border border-border bg-card/50 hover:bg-card hover:border-muted-foreground/30 transition-all duration-200 min-w-0">
+      <div className="flex items-center gap-4 min-w-0">
+        <div className={`p-2.5 rounded-lg shrink-0 ${trade.type === 'C' ? 'bg-blue-500/10 text-blue-500' : 'bg-red-500/10 text-red-500'}`}>
           {trade.type === 'C' ? <TrendingUp size={18} /> : <TrendingDown size={18} />}
         </div>
-        <div>
-          <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
-            {trade.asset}
-            <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-muted text-muted-foreground font-bold">
+        <div className="min-w-0">
+          <h4 className="text-sm font-semibold text-foreground flex items-center gap-2 truncate">
+            <span className="truncate">{trade.asset}</span>
+            <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-muted text-muted-foreground font-bold shrink-0">
               {trade.type === 'C' ? 'LONG' : 'SHORT'}
             </span>
           </h4>
-          <div className="flex items-center gap-3 mt-1">
-            <span className="text-[11px] text-muted-foreground flex items-center gap-2">
-              <span className="flex items-center gap-1">
+          <div className="flex items-center gap-3 mt-1 min-w-0">
+            <span className="text-[11px] text-muted-foreground flex items-center gap-2 truncate">
+              <span className="flex items-center gap-1 shrink-0">
                 <Clock size={12} /> {formatDate(trade.openDate)}
               </span>
               {formatDuration(trade.openDate, trade.closeDate) && (
-                <span className="bg-muted px-1.5 py-0.5 rounded text-[9px] font-black text-primary">
+                <span className="bg-muted px-1.5 py-0.5 rounded text-[9px] font-black text-primary shrink-0">
                   {formatDuration(trade.openDate, trade.closeDate)}
                 </span>
               )}
@@ -65,7 +65,7 @@ export const TradeItem = ({ trade }) => {
         </div>
       </div>
       
-      <div className="text-right">
+      <div className="text-right shrink-0 ml-4">
         <p className={`text-sm font-bold ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
           {isPositive ? '+' : ''}{trade.result.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
         </p>

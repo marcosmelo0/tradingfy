@@ -100,7 +100,7 @@ export const SuggestionsView = () => {
 
       {/* Suggestion Form */}
       {showForm && (
-        <div className="bg-card border border-primary/20 p-8 rounded-4xl shadow-2xl animate-in zoom-in-95 duration-300">
+        <div className="bg-card border border-primary/20 p-6 md:p-8 rounded-3xl md:rounded-4xl shadow-2xl animate-in zoom-in-95 duration-300">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-primary/10 text-primary rounded-lg">

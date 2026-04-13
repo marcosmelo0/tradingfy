@@ -38,7 +38,7 @@ export const ConversionView = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-6 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-background to-background">
+    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-4 md:p-6 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-background to-background">
       <div className="max-w-4xl w-full text-center mb-12">
         <div className="inline-flex p-4 bg-red-500/10 rounded-3xl text-red-500 mb-6">
           <Clock size={40} />
@@ -102,7 +102,7 @@ const PlanCard = ({ plan, hasCoupon }) => {
   return (
     <div 
       onClick={() => subscribe(plan.priceId, hasCoupon)}
-      className={`relative bg-card border ${plan.starred ? 'border-primary shadow-2xl shadow-primary/20 scale-105 z-10' : 'border-border shadow-md'} p-8 rounded-4xl flex flex-col h-full hover:border-primary/50 transition-all group cursor-pointer`}>
+      className={`relative bg-card border ${plan.starred ? 'border-primary shadow-2xl shadow-primary/20 scale-105 z-10' : 'border-border shadow-md'} p-6 md:p-8 rounded-3xl md:rounded-4xl flex flex-col h-full hover:border-primary/50 transition-all group cursor-pointer`}>
       {plan.starred && (
         <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-lg">
           Mais Recomendado
@@ -114,7 +114,7 @@ const PlanCard = ({ plan, hasCoupon }) => {
         <p className="text-sm text-muted-foreground">{plan.description}</p>
       </div>
 
-      <div className="mb-8 p-6 bg-muted/30 rounded-4xl border border-border/50">
+      <div className="bg-card border border-border p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
         {hasCoupon && (
           <div className="text-sm text-muted-foreground line-through font-bold mb-1">
             R$ {originalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}

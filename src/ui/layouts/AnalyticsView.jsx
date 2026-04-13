@@ -226,7 +226,7 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
       </div>
 
       {/* Equity Curve */}
-      <div className="bg-card border border-border p-8 rounded-4xl shadow-xl">
+      <div className="bg-card border border-border p-6 md:p-8 rounded-4xl shadow-xl">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h3 className="text-xl font-black">Evolução do Patrimônio</h3>
@@ -234,7 +234,7 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
           </div>
           <div className="p-3 bg-primary/10 text-primary rounded-2xl"><TrendingUp size={24} /></div>
         </div>
-        <div className="h-[350px] w-full">
+        <div className="h-64 md:h-[350px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={equityData}>
               <defs>
@@ -254,7 +254,7 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
       </div>
 
       {/* NEW: Drawdown Curve */}
-      <div className="bg-card border border-border p-8 rounded-4xl shadow-xl">
+      <div className="bg-card border border-border p-6 md:p-8 rounded-4xl shadow-xl">
         <div className="flex items-center justify-between mb-2">
           <div>
             <h3 className="text-xl font-black flex items-center gap-2"><AlertTriangle size={20} className="text-red-500" /> Curva de Drawdown</h3>
@@ -265,7 +265,7 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
             <p className="text-2xl font-black text-red-500">$ {efficiency.maxDD}</p>
           </div>
         </div>
-        <div className="h-[250px] w-full mt-6">
+        <div className="h-56 md:h-[250px] w-full mt-6">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={drawdownData}>
               <defs>
@@ -287,7 +287,7 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
 
       {/* Monthly + Quality */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-card border border-border p-8 rounded-4xl shadow-xl">
+        <div className="lg:col-span-2 bg-card border border-border p-6 md:p-8 rounded-4xl shadow-xl">
           <div className="flex items-center gap-3 mb-8">
             <div className="p-2 bg-muted rounded-xl"><Calendar size={20} className="text-muted-foreground" /></div>
             <div>
@@ -295,7 +295,7 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
               <p className="text-xs text-muted-foreground uppercase tracking-widest font-black">Performance Mensal</p>
             </div>
           </div>
-          <div className="h-[280px] w-full">
+          <div className="h-56 md:h-[280px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthlyData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
@@ -309,7 +309,7 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
             </ResponsiveContainer>
           </div>
         </div>
-        <div className="bg-primary/5 border border-primary/20 p-8 rounded-4xl flex flex-col justify-between">
+        <div className="bg-primary/5 border border-primary/20 p-6 md:p-8 rounded-4xl flex flex-col justify-between">
           <div>
             <div className="inline-flex p-3 bg-primary/20 text-primary rounded-2xl mb-6"><PieChartIcon size={24} /></div>
             <h3 className="text-xl font-black mb-2">Qualidade do Setup</h3>
@@ -333,7 +333,7 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
       </div>
 
       {/* NEW: Win Rate por Mês */}
-      <div className="bg-card border border-border p-8 rounded-4xl shadow-xl">
+      <div className="bg-card border border-border p-6 md:p-8 rounded-4xl shadow-xl">
         <h3 className="text-xl font-black mb-1 flex items-center gap-2"><Target size={20} className="text-primary" /> Taxa de Acerto por Mês</h3>
         <p className="text-sm text-muted-foreground mb-8">Evolução da sua consistência mês a mês. Acima de 50% é zona segura.</p>
         <div className="h-[250px] w-full">
@@ -364,14 +364,14 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
             <p className="text-xs font-black uppercase tracking-widest text-green-500/70">🏆 Top 3 — Melhores Trades</p>
             {hallOfFame.best.map((t, i) => (
               <div key={i} className="bg-green-500/5 border border-green-500/10 p-4 rounded-2xl flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-lg font-black text-green-500/40">#{i + 1}</span>
-                  <div>
-                    <p className="font-black text-sm">{t.asset}</p>
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="text-lg font-black text-green-500/40 shrink-0">#{i + 1}</span>
+                  <div className="min-w-0">
+                    <p className="font-black text-sm truncate">{t.asset}</p>
                     <p className="text-[10px] text-muted-foreground">{new Date(t.closeDate).toLocaleDateString('pt-BR')}</p>
                   </div>
                 </div>
-                <span className="text-lg font-black text-green-500">+ $ {t.result.toFixed(2)}</span>
+                <span className="text-lg font-black text-green-500 shrink-0">+ $ {t.result.toFixed(2)}</span>
               </div>
             ))}
           </div>
@@ -379,14 +379,14 @@ export const AnalyticsView = ({ trades, activeAccount }) => {
             <p className="text-xs font-black uppercase tracking-widest text-red-500/70">💀 Top 3 — Piores Trades</p>
             {hallOfFame.worst.map((t, i) => (
               <div key={i} className="bg-red-500/5 border border-red-500/10 p-4 rounded-2xl flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-lg font-black text-red-500/40">#{i + 1}</span>
-                  <div>
-                    <p className="font-black text-sm">{t.asset}</p>
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="text-lg font-black text-red-500/40 shrink-0">#{i + 1}</span>
+                  <div className="min-w-0">
+                    <p className="font-black text-sm truncate">{t.asset}</p>
                     <p className="text-[10px] text-muted-foreground">{new Date(t.closeDate).toLocaleDateString('pt-BR')}</p>
                   </div>
                 </div>
-                <span className="text-lg font-black text-red-500">- $ {Math.abs(t.result).toFixed(2)}</span>
+                <span className="text-lg font-black text-red-500 shrink-0">- $ {Math.abs(t.result).toFixed(2)}</span>
               </div>
             ))}
           </div>

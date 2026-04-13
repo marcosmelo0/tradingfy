@@ -50,7 +50,7 @@ export const SettingsView = () => {
       </div>
 
       {/* Subscription Status Section */}
-      <div className="bg-card border border-primary/20 p-6 rounded-3xl shadow-xl shadow-primary/5 relative overflow-hidden group">
+      <div className="bg-card border border-primary/20 p-5 md:p-6 rounded-3xl shadow-xl shadow-primary/5 relative overflow-hidden group">
         <div className="absolute -right-8 -top-8 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all"></div>
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
@@ -100,7 +100,7 @@ export const SettingsView = () => {
       </div>
 
       {showAdd && (
-        <div className="bg-card border border-primary/20 p-6 rounded-3xl shadow-2xl animate-in zoom-in-95">
+        <div className="bg-card border border-primary/20 p-5 md:p-6 rounded-3xl shadow-2xl animate-in zoom-in-95">
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1.5 md:col-span-2">
               <label className="text-xs font-bold text-muted-foreground uppercase">Nome da Conta</label>
@@ -208,7 +208,7 @@ export const SettingsView = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {accounts.map(acc => (
-          <div key={acc.id} className="bg-card border border-border p-6 rounded-3xl hover:border-primary/30 transition-all group">
+          <div key={acc.id} className="bg-card border border-border p-5 md:p-6 rounded-3xl hover:border-primary/30 transition-all group">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-primary/10 rounded-2xl text-primary group-hover:scale-110 transition-transform">
                  <Plus size={24} />

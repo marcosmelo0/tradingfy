@@ -141,9 +141,9 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
         </div>
       )}
       {activeAccount?.profit_target > 0 && (
-        <div className="bg-card border border-border p-8 rounded-[2.5rem] shadow-xl relative overflow-hidden group">
+        <div className="bg-card border border-border p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] shadow-xl relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity text-primary">
-            <Trophy size={120} />
+            <Trophy className="w-20 h-20 md:w-[120px] md:h-[120px]" />
           </div>
 
           <div className="relative">
@@ -174,20 +174,20 @@ export default function MainDashboard({ trades, onRefresh, totalWithdrawn }) {
               ></div>
             </div>
 
-            <div className="flex justify-between mt-4 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
+            <div className="flex flex-col sm:flex-row justify-between mt-4 text-[11px] font-black uppercase tracking-widest text-muted-foreground gap-4 sm:gap-0">
               <div className="flex flex-col">
                 <span>Balance</span>
                 <span className="text-foreground text-sm">
                   {(activeAccount.initial_margin + stats.totalPnL).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                 </span>
               </div>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col sm:items-center">
                 <span>Faltam</span>
                 <span className="text-foreground text-sm">
                   {Math.max(0, activeAccount.profit_target - stats.totalPnL).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                 </span>
               </div>
-              <div className="flex flex-col items-end">
+              <div className="flex flex-col sm:items-end">
                 <span>Meta</span>
                 <span className="text-primary text-sm">
                   {activeAccount.profit_target.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}

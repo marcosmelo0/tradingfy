@@ -27,7 +27,7 @@ export const NewsView = () => {
       </div>
 
       {/* Calendar Card */}
-      <div className="bg-card border border-border p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+      <div className="bg-card border border-border p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform duration-700">
           <Newspaper size={120} />
         </div>
@@ -43,7 +43,7 @@ export const NewsView = () => {
             </div>
           </div>
 
-          <div className="rounded-4xl overflow-hidden border border-border bg-black shadow-inner">
+          <div className="rounded-2xl md:rounded-3xl overflow-hidden border border-border bg-black shadow-inner">
             <iframe
               src="https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&category=_employment,_economicActivity,_inflation,_credit,_centralBanks,_confidenceIndex,_balance,_Bonds&importance=2,3&features=datepicker,timezone,timeselector,filters&countries=110,17,29,25,32,6,37,26,5,22,39,14,48,10,35,7,43,38,4,36,12,72&calType=week&timeZone=12&lang=12"
               width="100%"
@@ -79,7 +79,7 @@ export const NewsView = () => {
       </div>
 
       {/* Pro Tip Card */}
-      <div className="bg-primary/5 border border-primary/20 p-6 rounded-3xl flex items-start gap-4">
+      <div className="bg-card border border-primary/20 p-6 md:p-8 rounded-3xl md:rounded-4xl shadow-2xl animate-in zoom-in-95 duration-300">
         <div className="p-2 bg-primary/20 text-primary rounded-lg shrink-0">
           <ArrowUpRight size={20} />
         </div>

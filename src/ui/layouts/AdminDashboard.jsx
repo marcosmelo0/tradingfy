@@ -141,7 +141,7 @@ const AdminDashboard = () => {
 
       {activeTab === 'members' ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <StatCard icon={Users} label="Usuários Totais" value={stats.total} color="bg-blue-500/10 text-blue-500" />
             <StatCard icon={ShieldCheck} label="Assinaturas" value={stats.active} color="bg-emerald-500/10 text-emerald-500" />
             <StatCard icon={Clock} label="Trial" value={stats.trial} color="bg-amber-500/10 text-amber-500" />
@@ -300,7 +300,7 @@ const EditUserModal = ({ user, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-md p-6">
-      <div className="bg-card border border-border w-full max-w-md rounded-[2.5rem] p-10 shadow-2xl animate-in zoom-in-95 duration-200">
+      <div className="bg-card border border-border w-full max-w-md rounded-3xl md:rounded-[2.5rem] p-6 md:p-10 shadow-2xl animate-in zoom-in-95 duration-200 overflow-y-auto max-h-[90vh]">
         <div className="text-center mb-8">
           <div className="inline-flex p-3 bg-primary/10 rounded-2xl text-primary mb-4">
             <ShieldCheck size={32} />
@@ -311,7 +311,7 @@ const EditUserModal = ({ user, onClose, onSave }) => {
         
         <div className="space-y-6">
           <div className="p-4 bg-background border border-border rounded-2xl space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-x-4">
               <div className="flex items-center gap-3">
                 <Users className="text-blue-500" size={20} />
                 <span className="text-sm font-bold">Modo Afiliado</span>
@@ -386,7 +386,7 @@ const EditUserModal = ({ user, onClose, onSave }) => {
           </div>
         </div>
 
-        <div className="flex gap-4 mt-12 bg-muted/20 p-2 rounded-3xl">
+        <div className="flex flex-col sm:flex-row gap-3 mt-10 bg-muted/20 p-2 rounded-2xl md:rounded-3xl">
           <button 
             onClick={onClose} 
             className="flex-1 px-4 py-4 rounded-2xl font-black border border-border hover:bg-muted transition-all text-xs"

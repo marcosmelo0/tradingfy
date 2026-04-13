@@ -33,7 +33,7 @@ export const AuthView = () => {
           <p className="text-muted-foreground">O controle total da sua mesa proprietária em um só lugar.</p>
         </div>
 
-        <div className="bg-card border border-border p-8 rounded-[2.5rem] shadow-2xl">
+        <div className="bg-card border border-border p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] shadow-2xl">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-muted-foreground uppercase ml-1">E-mail</label>
