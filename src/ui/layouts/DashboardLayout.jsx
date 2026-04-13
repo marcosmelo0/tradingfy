@@ -18,7 +18,7 @@ export const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isAffiliateMissingCoupon = user?.profile?.is_affiliate && !user?.profile?.coupon_code;
+  const isAffiliateMissingCoupon = user?.profile?.is_affiliate && (!user?.profile?.coupon_code || String(user?.profile?.coupon_code).toLowerCase() === 'null');
 
   const activeTab = location.pathname.split('/').pop() || 'dashboard';
 
