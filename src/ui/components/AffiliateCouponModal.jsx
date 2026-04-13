@@ -45,7 +45,7 @@ export const AffiliateCouponModal = ({ user, onSuccess }) => {
           </div>
           <h2 className="text-4xl font-black tracking-tight mb-4">Bem-vindo ao Time! 🚀</h2>
           <p className="text-muted-foreground leading-relaxed">
-            Você foi promovido a **Afiliado Oficial** do TradingFy. 
+            Você foi promovido a <span className="font-black text-foreground">Afiliado Oficial</span> do TradingFy. 
             Crie agora seu cupom exclusivo de {user?.profile?.affiliate_discount || 10}% OFF para sua rede.
           </p>
         </div>
